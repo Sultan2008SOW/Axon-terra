@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: axonterra
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --chdir . --workers 2 --bind 0.0.0.0:$PORT
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ADMIN_USERNAME
+        value: contact@axonterra.org
+      - key: ADMIN_PASSWORD_HASH
+        sync: false
+    disk:
+      name: axonterra-data
+      mountPath: /opt/render/project/src/instance
+      sizeGB: 1

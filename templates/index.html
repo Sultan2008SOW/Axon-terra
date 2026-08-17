@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AXONTERRA – GeoTech, DataTech & GovTech au Sénégal</title>
+  <meta name="description" content="AXONTERRA accompagne les collectivités territoriales et institutions sénégalaises dans leur transformation numérique grâce à la géomatique, aux SIG, à la data territoriale, à la fiscalité locale et au développement de solutions numériques.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.axonterra.org/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="AXONTERRA – GeoTech, DataTech & GovTech au Sénégal">
+  <meta property="og:description" content="Connecter le territoire aux données. Solutions SIG, data territoriale et fiscalité locale pour les collectivités.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.axonterra.org/">
+  <meta property="og:image" content="{{ url_for('static', filename='img/logo-axonterra.png', _external=True) }}">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AXONTERRA – GeoTech, DataTech & GovTech au Sénégal">
+  <meta name="twitter:description" content="Connecter le territoire aux données.">
+  <meta name="twitter:image" content="{{ url_for('static', filename='img/logo-axonterra.png', _external=True) }}">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo-axonterra.png') }}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Sora', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            axo: {
+              blue: 'var(--axo-secondary)',
+              'blue-light': 'var(--axo-secondary-light)',
+              green: 'var(--axo-primary)',
+              'green-dark': 'var(--axo-primary-dark)',
+              cream: 'var(--axo-surface)',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --axo-primary: #2e6656;
+      --axo-primary-rgb: 46, 102, 86;
+      --axo-primary-dark: #1a4e43;
+      --axo-secondary: #0d2f2b;
+      --axo-secondary-rgb: 13, 47, 43;
+      --axo-secondary-light: #15544c;
+      --axo-surface: #f8fafc;
+      --axo-text: #0f2b25;
+      --axo-text-secondary: #64748b;
+      --axo-border: #dcebe5;
+    }
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3, .font-display { font-family: 'Sora', sans-serif; }
+    #scroll-progress {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--axo-primary);
+      width: 0%;
+      z-index: 1000;
+      transition: width 0.1s linear;
+    }
+    #scroll-top {
+      display: none;
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 50;
+      align-items: center;
+      justify-content: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 9999px;
+      background: var(--axo-secondary);
+      color: white;
+      box-shadow: 0 10px 25px -5px rgba(var(--axo-secondary-rgb), 0.4);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    #scroll-top.visible { display: flex; }
+    #scroll-top:hover { transform: translateY(-2px); background: var(--axo-primary); }
+
+    /* Navbar states */
+    #navbar { transition: all 0.3s ease; }
+    #navbar.on-hero { background: transparent; color: white; border-bottom-color: transparent; }
+    #navbar.scrolled {
+      background: rgba(var(--axo-secondary-rgb), 0.96);
+      color: white;
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px -10px rgba(var(--axo-secondary-rgb), 0.35);
+    }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(20px); transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 100ms; }
+    .reveal-delay-2 { transition-delay: 200ms; }
+    .reveal-delay-3 { transition-delay: 300ms; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    }
+
+    /* Form styles */
+    .form-label { display: block; font-size: 0.875rem; font-weight: 500; color: #1e293b; margin-bottom: 0.375rem; }
+    .form-input {
+      width: 100%;
+      border-radius: 0.5rem;
+      border: 1px solid #cbd5e1;
+      background: white;
+      padding: 0.625rem 0.875rem;
+      color: #0f172a;
+      font-size: 0.9375rem;
+      transition: all 0.2s ease;
+    }
+    .form-input::placeholder { color: #94a3b8; }
+    .form-input:focus { outline: none; border-color: var(--axo-primary); box-shadow: 0 0 0 3px rgba(var(--axo-primary-rgb), 0.15); }
+    .form-honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; opacity: 0; }
+
+    /* Nav link underline */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -4px;
+      width: 0; height: 2px;
+      background: var(--axo-primary);
+      transition: width 0.2s ease;
+    }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+    /* Dropdown */
+    .group:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+    .dropdown {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.2s ease;
+    }
+
+    .principle-card:hover .principle-icon { transform: translateY(-4px); }
+    .tech-pill:hover { transform: translateY(-2px); }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "AXONTERRA SAS",
+    "url": "https://www.axonterra.org",
+    "logo": "{{ url_for('static', filename='img/logo-axonterra.png', _external=True) }}",
+    "description": "GeoTech, DataTech et GovTech pour les collectivités territoriales au Sénégal.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Dakar",
+      "addressCountry": "SN"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+221-76-800-97-60",
+      "email": "contact@axonterra.org",
+      "contactType": "customer support"
+    },
+    "sameAs": []
+  }
+  </script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/motion.css') }}?v=11">
+</head>
+<body class="font-body text-slate-700 bg-axo-cream antialiased">
+
+  <div id="scroll-progress" aria-hidden="true"></div>
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:rounded focus:bg-axo-blue focus:text-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold">Aller au contenu principal</a>
+
+  <!-- Navbar -->
+  <header id="navbar" class="on-hero fixed top-0 inset-x-0 z-50 border-b border-transparent">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 lg:h-28 flex items-center justify-between">
+      <a href="#hero" class="flex items-center gap-3 group" aria-label="AXONTERRA — accueil">
+        <img src="{{ url_for('static', filename='img/logo-axonterra-blanc.png') }}" alt="AXONTERRA" class="h-14 w-auto md:h-16 lg:h-[96px] logo-anim">
+      </a>
+
+      <div class="hidden lg:flex items-center gap-8 text-sm font-medium">
+        <a href="#a-propos" class="nav-link" data-i18n="nav.about">À propos</a>
+        <a href="#sicofil" class="nav-link">SICOFIL</a>
+        <a href="#solutions" class="nav-link" data-i18n="nav.solutions">Solutions</a>
+        <a href="#secteurs" class="nav-link" data-i18n="nav.sectors">Secteurs</a>
+        <a href="#equipe" class="nav-link" data-i18n="nav.team">Équipe</a>
+        <a href="#realisations" class="nav-link" data-i18n="nav.projects">Missions &amp; réalisations</a>
+        <a href="#contact" class="nav-link" data-i18n="nav.contact">Contact</a>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button id="theme-toggle" type="button" class="util-toggle relative" aria-label="Basculer le mode sombre/clair">
+          <svg class="icon-sun h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path stroke-linecap="round" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="icon-moon h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        </button>
+        <button id="lang-toggle" type="button" class="util-toggle" aria-label="Changer de langue">FR / EN</button>
+        <a href="#contact" class="hidden sm:inline-flex items-center justify-center rounded-lg bg-axo-green px-5 py-2.5 text-sm font-semibold text-white hover:bg-axo-green-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-axo-green transition-all duration-200 shadow-lg shadow-green-500/20" data-i18n="nav.cta">
+          Parlons de votre projet
+        </a>
+        <button id="menu-btn" class="lg:hidden p-2 rounded-lg hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-axo-green" aria-label="Menu" aria-expanded="false">
+          <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </nav>
+
+    <div id="mobile-menu" class="hidden lg:hidden border-t border-white/10 bg-axo-blue/98 px-4 py-4 text-white text-sm font-medium">
+      <a href="#a-propos" class="block py-2 hover:text-axo-green transition-colors" data-i18n="nav.about">À propos</a>
+      <a href="#sicofil" class="block py-2 hover:text-axo-green transition-colors">SICOFIL</a>
+      <a href="#solutions" class="block py-2 hover:text-axo-green transition-colors" data-i18n="nav.solutions">Solutions</a>
+      <a href="#secteurs" class="block py-2 hover:text-axo-green transition-colors" data-i18n="nav.sectors">Secteurs</a>
+      <a href="#equipe" class="block py-2 hover:text-axo-green transition-colors" data-i18n="nav.team">Équipe</a>
+      <a href="#realisations" class="block py-2 hover:text-axo-green transition-colors" data-i18n="nav.projects">Missions &amp; réalisations</a>
+      <a href="#contact" class="block py-2 hover:text-axo-green transition-colors" data-i18n="nav.contact">Contact</a>
+      <a href="#contact" class="mt-3 block w-full text-center rounded-lg bg-axo-green py-2.5 text-white font-semibold hover:bg-axo-green-dark transition-colors" data-i18n="nav.cta">Parlons de votre projet</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- Hero -->
+    <section id="hero" class="relative min-h-[90vh] flex items-center overflow-hidden">
+      <div class="hero-bg absolute inset-0 z-0 overflow-hidden">
+        <img src="{{ url_for('static', filename='img/arriere-plan.jpg') }}?v=4" alt="" class="w-full h-full object-cover" aria-hidden="true">
+        <div class="absolute inset-0 bg-axo-blue/95 backdrop-blur-[2px]"></div>
+        <div class="hero-network" aria-hidden="true">
+          <svg class="hero-network-svg" viewBox="0 0 900 500" preserveAspectRatio="xMidYMid slice">
+            <g class="hero-network-lines">
+              <path id="hero-line-1" class="hero-network-line" d="M80,420 C180,360 280,260 400,220 C520,180 640,240 780,180" pathLength="1" style="--hero-net-delay:500ms"/>
+              <path id="hero-line-2" class="hero-network-line" d="M120,380 L280,320 L420,260 L640,200" pathLength="1" style="--hero-net-delay:700ms"/>
+              <path id="hero-line-3" class="hero-network-line" d="M280,320 L340,180" pathLength="1" style="--hero-net-delay:900ms"/>
+              <path id="hero-line-4" class="hero-network-line" d="M420,260 L520,360" pathLength="1" style="--hero-net-delay:1100ms"/>
+              <path id="hero-line-5" class="hero-network-line" d="M220,440 L420,260 L620,220 L800,280" pathLength="1" style="--hero-net-delay:1300ms"/>
+              <path id="hero-line-6" class="hero-network-line" d="M60,280 L220,220 L340,180 L560,140" pathLength="1" style="--hero-net-delay:1500ms"/>
+              <path id="hero-line-7" class="hero-network-line" d="M560,140 L780,180" pathLength="1" style="--hero-net-delay:1700ms"/>
+              <path class="hero-network-line" d="M340,180 L620,140 L820,180" pathLength="1" style="--hero-net-delay:600ms"/>
+            </g>
+            <g class="hero-network-dots">
+              <circle class="hero-network-dot" cx="80" cy="420" r="5.5" style="--hero-net-delay:0ms"/>
+              <circle class="hero-network-dot" cx="120" cy="380" r="4" style="--hero-net-delay:100ms"/>
+              <circle class="hero-network-dot" cx="220" cy="440" r="4.5" style="--hero-net-delay:200ms"/>
+              <circle class="hero-network-dot" cx="280" cy="320" r="6.5" style="--hero-net-delay:300ms"/>
+              <circle class="hero-network-dot" cx="340" cy="180" r="5" style="--hero-net-delay:400ms"/>
+              <circle class="hero-network-dot" cx="420" cy="260" r="5.5" style="--hero-net-delay:500ms"/>
+              <circle class="hero-network-dot" cx="400" cy="220" r="4" style="--hero-net-delay:600ms"/>
+              <circle class="hero-network-dot" cx="520" cy="360" r="4.5" style="--hero-net-delay:650ms"/>
+              <circle class="hero-network-dot" cx="560" cy="140" r="5" style="--hero-net-delay:150ms"/>
+              <circle class="hero-network-dot" cx="620" cy="220" r="4.5" style="--hero-net-delay:700ms"/>
+              <circle class="hero-network-dot" cx="640" cy="200" r="4" style="--hero-net-delay:800ms"/>
+              <circle class="hero-network-dot" cx="780" cy="180" r="5.5" style="--hero-net-delay:900ms"/>
+              <circle class="hero-network-dot" cx="800" cy="280" r="4.5" style="--hero-net-delay:1000ms"/>
+              <circle class="hero-network-dot" cx="60" cy="280" r="4" style="--hero-net-delay:250ms"/>
+              <circle class="hero-network-dot" cx="220" cy="220" r="3.5" style="--hero-net-delay:450ms"/>
+              <circle class="hero-network-dot" cx="620" cy="140" r="3.5" style="--hero-net-delay:550ms"/>
+            </g>
+            <g class="hero-network-particles">
+              <circle r="3.5" style="filter: drop-shadow(0 0 7px rgba(255,255,255,0.95))">
+                <animateMotion dur="2.5s" repeatCount="indefinite" begin="1.4s" keyPoints="0;1" keyTimes="0;1" calcMode="linear">
+                  <mpath href="#hero-line-1"/>
+                </animateMotion>
+              </circle>
+              <circle r="3" style="filter: drop-shadow(0 0 6px rgba(255,255,255,0.95))">
+                <animateMotion dur="2.2s" repeatCount="indefinite" begin="1.8s" keyPoints="0;1" keyTimes="0;1" calcMode="linear">
+                  <mpath href="#hero-line-2"/>
+                </animateMotion>
+              </circle>
+              <circle r="3" style="filter: drop-shadow(0 0 6px rgba(255,255,255,0.95))">
+                <animateMotion dur="2.8s" repeatCount="indefinite" begin="1.6s" keyPoints="0;1" keyTimes="0;1" calcMode="linear">
+                  <mpath href="#hero-line-5"/>
+                </animateMotion>
+              </circle>
+              <circle r="2.5" style="filter: drop-shadow(0 0 5px rgba(255,255,255,0.95))">
+                <animateMotion dur="2s" repeatCount="indefinite" begin="2s" keyPoints="0;1" keyTimes="0;1" calcMode="linear">
+                  <mpath href="#hero-line-6"/>
+                </animateMotion>
+              </circle>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-28 w-full">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="hero-content text-center lg:text-left">
+            <p class="hero-label text-sm sm:text-lg font-semibold tracking-wide text-axo-cream uppercase" style="--hero-delay:0ms">AXONTERRA — SAS · GeoTech · DataTech · GovTech</p>
+            <h1 class="hero-title mt-4 text-4xl sm:text-6xl lg:text-7xl font-display font-bold text-white leading-tight drop-shadow-lg" data-i18n="hero.title" data-hero-typewriter>Connecter le territoire aux données</h1>
+            <p class="hero-subtitle mt-6 text-xl sm:text-2xl text-axo-cream max-w-2xl" style="--hero-delay:3200ms" data-i18n="hero.subtitle">
+              Pour la transformation numérique des collectivités territoriales.
+            </p>
+            <div class="hero-sicofil mt-6 inline-flex items-center gap-2 rounded-full bg-axo-green px-5 py-3 text-white text-base font-semibold border border-white/30" style="--hero-delay:3400ms">
+              <span class="w-2 h-2 rounded-full bg-white"></span>
+              <span data-i18n="hero.sicofilTag">SICOFIL — plateforme SIG intelligente pour la fiscalité locale</span>
+            </div>
+            <p class="hero-quote mt-4 italic text-axo-cream text-lg sm:text-xl" style="--hero-delay:3600ms" data-i18n="hero.quote">« Nous ne gagnons que si la commune gagne. »</p>
+            <div class="hero-btns mt-10 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+              <a href="#sicofil" class="hero-btn w-full sm:w-auto inline-flex items-center justify-center rounded-lg bg-axo-green px-7 py-3.5 text-base font-semibold text-white hover:bg-axo-green-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-axo-green transition-all duration-200 shadow-xl shadow-green-500/20" style="--hero-delay:3850ms" data-i18n="hero.ctaDiscover">
+                Découvrir SICOFIL
+              </a>
+              <a href="#contact" class="hero-btn w-full sm:w-auto inline-flex items-center justify-center rounded-lg border border-white/30 bg-white/10 px-7 py-3.5 text-base font-semibold text-white hover:bg-white/20 transition-all duration-200" style="--hero-delay:3950ms" data-i18n="nav.cta">
+                Parlons de votre projet
+              </a>
+            </div>
+          </div>
+
+          <div class="hero-visual flex justify-center" style="--hero-delay:300ms">
+            <div class="relative w-full max-w-md">
+              <canvas id="hero-globe" class="w-full aspect-square relative z-10 cursor-grab" role="img" aria-label="Globe connecté — AXONTERRA"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Qui sommes-nous -->
+    <section id="a-propos" class="py-20 sm:py-28 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="reveal">
+            <h2 class="text-3xl sm:text-4xl font-display font-bold text-axo-blue" data-i18n="about.title">Une startup sénégalaise au service des territoires</h2>
+            <p class="mt-6 text-slate-600 leading-relaxed">
+              AXONTERRA est une startup sénégalaise spécialisée dans la géomatique, les systèmes d'information géographique, le développement d'applications web et mobile, la data territoriale, la fiscalité locale et la transformation numérique des collectivités territoriales.
+            </p>
+            <p class="mt-4 text-slate-600 leading-relaxed">
+              <strong>Mission :</strong> mettre la donnée géographique, fiscale et territoriale au service de la gouvernance locale.
+            </p>
+            <a href="#contact" class="mt-8 inline-flex items-center justify-center rounded-lg bg-axo-green px-6 py-3 text-sm font-semibold text-white hover:bg-axo-green-dark transition-all shadow-lg shadow-green-500/20">Rencontrer l'équipe</a>
+          </div>
+          <div class="reveal reveal-delay-1 grid sm:grid-cols-2 gap-6">
+            <div class="bg-axo-cream rounded-2xl p-6 border border-slate-100">
+              <div class="w-12 h-12 rounded-xl bg-axo-blue/10 text-axo-blue flex items-center justify-center mb-4">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0121 18.382V7.618a1 1 0 01-.447-.894L15 4m0 13V4m0 0L9 7"/></svg>
+              </div>
+              <h3 class="text-lg font-display font-bold text-axo-blue">Géomatique</h3>
+              <p class="mt-2 text-sm text-slate-600">Représenter, cartographier et analyser le territoire.</p>
+            </div>
+            <div class="bg-axo-cream rounded-2xl p-6 border border-slate-100">
+              <div class="w-12 h-12 rounded-xl bg-axo-blue/10 text-axo-blue flex items-center justify-center mb-4">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+              </div>
+              <h3 class="text-lg font-display font-bold text-axo-blue">Développement logiciel</h3>
+              <p class="mt-2 text-sm text-slate-600">Plateformes web et mobiles adaptées au terrain.</p>
+            </div>
+            <div class="bg-axo-cream rounded-2xl p-6 border border-slate-100">
+              <div class="w-12 h-12 rounded-xl bg-axo-blue/10 text-axo-blue flex items-center justify-center mb-4">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+              </div>
+              <h3 class="text-lg font-display font-bold text-axo-blue">Data Science</h3>
+              <p class="mt-2 text-sm text-slate-600">Indicateurs et tableaux de bord pour la décision.</p>
+            </div>
+            <div class="bg-axo-cream rounded-2xl p-6 border border-slate-100">
+              <div class="w-12 h-12 rounded-xl bg-axo-blue/10 text-axo-blue flex items-center justify-center mb-4">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+              </div>
+              <h3 class="text-lg font-display font-bold text-axo-blue">Gouvernance locale</h3>
+              <p class="mt-2 text-sm text-slate-600">Technologie au service de la performance et de la transparence.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notre histoire — Sandiara -->
+    <section id="histoire" class="py-20 sm:py-28 bg-axo-cream">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="reveal-scale order-2 lg:order-1">
+            <img src="{{ url_for('static', filename='img/partners/sandiara.jpg') }}" alt="Carte de la commune de Sandiara" class="rounded-2xl shadow-xl w-full object-cover" loading="lazy">
+          </div>
+          <div class="reveal order-1 lg:order-2">
+            <h2 class="text-3xl sm:text-4xl font-display font-bold text-axo-blue" data-i18n="origin.title">Une solution née du terrain : Sandiara</h2>
+            <p class="mt-6 text-slate-600 leading-relaxed">
+              Le projet est né d'un besoin concret observé dans la commune de Sandiara autour de la gestion fiscale des unités commerciales : recensement manuel, registres papier, données dispersées, unités non géolocalisées, suivi difficile des paiements, rapports tardifs et manque de visibilité sur les recettes.
+            </p>
+            <div class="mt-6 p-6 bg-white rounded-2xl border border-slate-200 shadow-sm">
+              <h3 class="text-xl font-display font-bold text-axo-blue">Ce qui en est né : SICOFIL</h3>
+              <p class="mt-2 text-slate-600">Une plateforme SIG destinée à moderniser la fiscalité locale dans les communes.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AXONTERRA sur le terrain -->
+    <section id="terrain" class="py-20 sm:py-28 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto reveal">
+          <h2 class="text-3xl sm:text-4xl font-display font-bold text-axo-blue" data-i18n="field.title">AXONTERRA sur le terrain</h2>
+              <p class="mt-4 text-slate-600" data-i18n="field.subtitle">De la donnée au terrain, nous accompagnons les territoires au plus près de leurs réalités.</p>
+        </div>
+
+        <div class="mt-14 reveal space-y-4">
+          <div class="grid lg:grid-cols-2 gap-4">
+            <div class="relative min-h-[300px] rounded-2xl overflow-hidden bg-axo-cream border border-slate-200">
+              <img src="{{ url_for('static', filename='img/maps/carte-sandiara.png') }}" alt="Missions à Sandiara" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+              <div class="absolute inset-0 bg-gradient-to-t from-axo-blue/80 to-transparent"></div>
+              <span class="absolute bottom-4 left-4 text-white font-semibold text-sm bg-axo-blue/60 backdrop-blur-sm px-3 py-1 rounded-full">Missions à Sandiara</span>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="aspect-video rounded-2xl overflow-hidden border border-slate-200">
+                <img src="{{ url_for('static', filename='img/mission/collecte-donnees.svg') }}" alt="Collecte de données" class="w-full h-full object-cover" loading="lazy">
+              </div>
+              <div class="aspect-video rounded-2xl overflow-hidden border border-slate-200">
+                <img src="{{ url_for('static', filename='img/mission/geolocalisation.svg') }}" alt="Géolocalisation / GPS" class="w-full h-full object-cover" loading="lazy">
+              </div>
+              <div class="aspect-video rounded-2xl overflow-hidden border border-slate-200">
+                <img src="{{ url_for('static', filename='img/mission/recensement-photo.png') }}" alt="Recensement" class="w-full h-full object-cover" loading="lazy">
+              </div>
+              <div class="aspect-video rounded-2xl overflow-hidden border border-slate-200">
+                <img src="{{ url_for('static', filename='img/mission/acteurs-locaux.svg') }}" alt="Acteurs locaux" class="w-full h-full object-cover" loading="lazy">
+              </div>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="aspect-video rounded-2xl overflow-hidden border border-slate-200">
+              <img src="{{ url_for('static', filename='img/mission/cartographie-territoire.svg') }}" alt="Cartographie / observation du territoire" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <div class="aspect-video rounded-2xl bg-axo-blue text-white border border-white/10 flex items-center justify-center text-center p-6 relative overflow-hidden">
+              <div class="z-10">
+                <div class="mx-auto w-14 h-14 rounded-full bg-white/10 flex items-center justify-center mb-2">
+                  <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+                <p class="font-semibold text-sm">Vidéo d'une mission terrain</p>
+                <p class="text-xs text-blue-100/70 mt-1">(vidéo à ajouter)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SICOFIL -->
+    <section id="sicofil" class="py-20 sm:py-28 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto reveal">
+          <h2 class="text-4xl sm:text-5xl font-display font-bold text-axo-blue">SICOFIL</h2>
+              <p class="mt-3 text-xl text-slate-700 font-medium" data-i18n="sicofil.subtitle">Système d'Information Commerciale pour la Fiscalité Locale</p>
+          <p class="mt-4 text-lg text-slate-700">SICOFIL est une plateforme SIG intelligente conçue pour moderniser la gestion fiscale des unités commerciales dans les communes.</p>
+        </div>
+
+        <div class="method-line hidden lg:block mt-14 mb-2 w-full rounded-full overflow-hidden"></div>
+
+        <div class="mt-6 lg:mt-2 grid md:grid-cols-2 lg:grid-cols-4 gap-6 sicofil-modules">
+          <div class="reveal module-connector bg-axo-cream rounded-2xl p-6 border border-slate-100">
+            <span class="text-axo-green font-display font-bold text-2xl">01</span>
+            <h3 class="mt-3 text-lg font-display font-bold text-axo-blue">Recensement &amp; géolocalisation</h3>
+            <ul class="mt-3 text-sm text-slate-600 space-y-1">
+              <li>• Unités commerciales</li>
+              <li>• Coordonnées GPS</li>
+              <li>• Zones fiscales</li>
+            </ul>
+          </div>
+          <div class="reveal reveal-delay-1 module-connector bg-axo-cream rounded-2xl p-6 border border-slate-100">
+            <span class="text-axo-green font-display font-bold text-2xl">02</span>
+            <h3 class="mt-3 text-lg font-display font-bold text-axo-blue">Paiements &amp; suivi</h3>
+            <ul class="mt-3 text-sm text-slate-600 space-y-1">
+              <li>• Enregistrement des paiements</li>
+              <li>• Suivi des retards</li>
+              <li>• Génération de reçus</li>
+            </ul>
+          </div>
+          <div class="reveal reveal-delay-2 module-connector bg-axo-cream rounded-2xl p-6 border border-slate-100">
+            <span class="text-axo-green font-display font-bold text-2xl">03</span>
+            <h3 class="mt-3 text-lg font-display font-bold text-axo-blue">Comptes &amp; rôles</h3>
+            <ul class="mt-3 text-sm text-slate-600 space-y-1">
+              <li>• Maire</li>
+              <li>• Gestionnaire</li>
+              <li>• Collecteur &amp; historique</li>
+            </ul>
+          </div>
+          <div class="reveal reveal-delay-3 module-connector bg-axo-cream rounded-2xl p-6 border border-slate-100">
+            <span class="text-axo-green font-display font-bold text-2xl">04</span>
+            <h3 class="mt-3 text-lg font-display font-bold text-axo-blue">Cartographie &amp; rapports</h3>
+            <ul class="mt-3 text-sm text-slate-600 space-y-1">
+              <li>• Carte interactive</li>
+              <li>• Rapports statistiques</li>
+              <li>• Export PDF / image</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-14 reveal">
+          <p class="text-center text-sm text-slate-500 mb-4">Galerie SICOFIL — captures d'écran, carte interactive et rapports à insérer ici</p>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="reveal aspect-video rounded-xl overflow-hidden border border-slate-200">
+              <img src="{{ url_for('static', filename='img/sicofil/dashboard.svg') }}" alt="Dashboard SICOFIL" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <div class="reveal reveal-delay-1 aspect-video rounded-xl overflow-hidden border border-slate-200">
+              <img src="{{ url_for('static', filename='img/sicofil/carte-interactive.svg') }}" alt="Carte interactive" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <div class="reveal reveal-delay-2 aspect-video rounded-xl overflow-hidden border border-slate-200">
+              <img src="{{ url_for('static', filename='img/sicofil/fiche-unite.svg') }}" alt="Fiche unité commerciale" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <div class="reveal reveal-delay-3 aspect-video rounded-xl overflow-hidden border border-slate-200">
+              <img src="{{ url_for('static', filename='img/sicofil/rapport-paiements.svg') }}" alt="Rapport de paiements" class="w-full h-full object-cover" loading="lazy">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Avant / Après -->
+    <section id="avant-apres" class="py-20 sm:py-28 bg-axo-blue text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl sm:text-4xl font-display font-bold text-center reveal" data-i18n="compare.title">Avant / Après SICOFIL</h2>
+        <div class="mt-14 grid md:grid-cols-2 gap-8">
+          <div class="reveal before-card reveal-left bg-white/5 rounded-2xl p-8 border border-white/10">
+            <h3 class="text-xl font-display font-bold text-red-200">Avant</h3>
+            <ul class="mt-4 space-y-3 text-blue-100/90">
+              <li class="flex items-start gap-2"><span class="text-red-300">×</span> Registres papier</li>
+              <li class="flex items-start gap-2"><span class="text-red-300">×</span> Recensement manuel</li>
+              <li class="flex items-start gap-2"><span class="text-red-300">×</span> Données dispersées</li>
+              <li class="flex items-start gap-2"><span class="text-red-300">×</span> Paiements difficiles à suivre</li>
+              <li class="flex items-start gap-2"><span class="text-red-300">×</span> Peu de visibilité sur les recettes</li>
+              <li class="flex items-start gap-2"><span class="text-red-300">×</span> Rapports tardifs</li>
+            </ul>
+          </div>
+          <div class="reveal after-card reveal-right reveal-delay-1 bg-white/10 rounded-2xl p-8 border border-white/20">
+            <h3 class="text-xl font-display font-bold text-axo-cream">Avec SICOFIL</h3>
+            <ul class="mt-4 space-y-3 text-blue-100/90">
+              <li class="flex items-start gap-2"><span class="text-axo-green">✓</span> Recensement numérique</li>
+              <li class="flex items-start gap-2"><span class="text-axo-green">✓</span> Géolocalisation</li>
+              <li class="flex items-start gap-2"><span class="text-axo-green">✓</span> Suivi des paiements</li>
+              <li class="flex items-start gap-2"><span class="text-axo-green">✓</span> Contrôle des collecteurs</li>
+              <li class="flex items-start gap-2"><span class="text-axo-green">✓</span> Tableaux de bord</li>
+              <li class="flex items-start gap-2"><span class="text-axo-green">✓</span> Rapports fiables</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Nos solutions -->
+    <section id="solutions" class="py-20 sm:py-28 bg-axo-cream">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto reveal">
+          <h2 class="text-3xl sm:text-4xl font-display font-bold text-axo-blue" data-i18n="solutions.title">Nos solutions</h2>
+              <p class="mt-4 text-slate-600" data-i18n="solutions.subtitle">Des solutions complètes pour la digitalisation des territoires et des services publics.</p>
+        </div>
+
+        <div class="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="reveal bg-white rounded-2xl p-7 shadow-lg border border-slate-100 hover:shadow-xl transition-all">
+            <h3 class="text-lg font-display font-bold text-axo-blue">Cartographie &amp; SIG</h3>
+            <p class="mt-3 text-slate-600 text-sm leading-relaxed">Production de cartes thématiques, cartographie communale, création de fonds de plans et mise en place de systèmes d'information géographique.</p>
+          </div>
+          <div class="reveal reveal-delay-1 bg-white rounded-2xl p-7 shadow-lg border border-slate-100 hover:shadow-xl transition-all">
+            <h3 class="text-lg font-display font-bold text-axo-blue">Data territoriale</h3>
+            <p class="mt-3 text-slate-600 text-sm leading-relaxed">Collecte, traitement, analyse et visualisation des données locales pour éclairer la planification et l'action publique.</p>
+          </div>
+          <div class="reveal reveal-delay-2 bg-white rounded-2xl p-7 shadow-lg border border-slate-100 hover:shadow-xl transition-all">
+            <h3 class="text-lg font-display font-bold text-axo-blue">Applications web &amp; mobile</h3>
+            <p class="mt-3 text-slate-600 text-sm leading-relaxed">Conception et développement de plateformes digitales adaptées au contexte administratif et opérationnel sénégalais.</p>
+          </div>
+          <div class="reveal bg-white rounded-2xl p-7 shadow-lg border border-slate-100 hover:shadow-xl transition-all">
+            <h3 class="text-lg font-display font-bold text-axo-blue">Fiscalité locale</h3>
+            <p class="mt-3 text-slate-600 text-sm leading-relaxed">Outils de recensement, de géolocalisation, de suivi des paiements et de reporting pour optimiser les recettes communales.</p>
+          </div>
+          <div class="reveal reveal-delay-1 bg-white rounded-2xl p-7 shadow-lg border border-slate-100 hover:shadow-xl transition-all">
+            <h3 class="text-lg font-display font-bold text-axo-blue">e-Gouvernance</h3>
+            <p class="mt-3 text-slate-600 text-sm leading-relaxed">Accompagnement à la transformation numérique des collectivités : dématérialisation, tableaux de bord et services en ligne.</p>
+          </div>
+          <div class="reveal reveal-delay-2 bg-white rounded-2xl p-7 shadow-lg border border-slate-100 hover:shadow-xl transition-all">
+            <h3 class="text-lg font-display font-bold text-axo-blue">Formations</h3>
+            <p class="mt-3 text-slate-600 text-sm leading-relaxed">Montée en compétences des agents communaux et des équipes sur les outils numériques, la cartographie et la gestion des données.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Secteurs -->
+    <section id="secteurs" class="py-20 sm:py-28 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto reveal">
+          <h2 class="text-3xl sm:text-4xl font-display font-bold text-axo-blue" data-i18n="sectors.title">Secteurs d'intervention</h2>
+              <p class="mt-4 text-slate-600" data-i18n="sectors.subtitle">Nous accompagnons des secteurs clés pour un développement local structuré et durable.</p>
+        </div>
+
+        <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          <div class="reveal bg-axo-cream rounded-2xl p-6 border border-slate-100">
+            <div class="w-12 h-12 rounded-full bg-axo-blue/10 text-axo-blue flex items-center justify-center mb-4">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            </div>
+            <h3 class="text-lg font-display font-bold text-axo-blue">Collectivités territoriales</h3>
+            <p class="mt-2 text-sm text-slate-600">Communes et conseils départementaux.</p>
+          </div>
+          <div class="reveal reveal-delay-1 bg-axo-cream rounded-2xl p-6 border border-slate-100">
+            <div class="w-12 h-12 rounded-full bg-axo-blue/10 text-axo-blue flex items-center justify-center mb-4">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <h3 class="text-lg font-display font-bold text-axo-blue">Aménagement &amp; environnement</h3>
+            <p class="mt-2 text-sm text-slate-600">Urbanisme, gestion des ressources naturelles.</p>
+          </div>
+          <div class="reveal reveal-delay-2 bg-axo-cream rounded-2xl p-6 border border-slate-100">
+            <div class="w-12 h-12 rounded-full bg-axo-blue/10 text-axo-blue flex items-center justify-center mb-4">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+            </div>
+            <h3 class="text-lg font-display font-bold text-axo-blue">Agriculture</h3>
+            <p class="mt-2 text-sm text-slate-600">Géorepérage, parcelles, intrants.</p>
+          </div>
+          <div class="reveal reveal-delay-3 bg-axo-cream rounded-2xl p-6 border border-slate-100">
+            <div class="w-12 h-12 rounded-full bg-axo-blue/10 text-axo-blue flex items-center justify-center mb-4">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <h3 class="text-lg font-display font-bold text-axo-blue">Infrastructures</h3>
+            <p class="mt-2 text-sm text-slate-600">Suivi de projets et réseaux.</p>
+          </div>
+          <div class="reveal bg-axo-cream rounded-2xl p-6 border border-slate-100">
+            <div class="w-12 h-12 rounded-full bg-axo-blue/10 text-axo-blue flex items-center justify-center mb-4">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            </div>
+            <h3 class="text-lg font-display font-bold text-axo-blue">Services publics</h3>
+            <p class="mt-2 text-sm text-slate-600">Administration et modernisation des processus.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notre méthode -->
+    <section id="methode" class="py-20 sm:py-28 bg-axo-cream">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto reveal">
+          <h2 class="text-3xl sm:text-4xl font-display font-bold text-axo-blue" data-i18n="method.title">Notre méthode</h2>
+              <p class="mt-4 text-slate-600" data-i18n="method.subtitle">Une approche itérative et collaborative pour des résultats concrets.</p>
+        </div>
+
+        <div class="method-line w-full mb-8 rounded-full overflow-hidden"></div>
+
+        <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="reveal relative bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+            <span class="method-number absolute -top-4 -left-2 text-5xl font-display font-bold text-axo-green/20">1</span>
+            <h3 class="text-lg font-display font-bold text-axo-blue">Diagnostic terrain</h3>
+            <p class="mt-2 text-sm text-slate-600">Comprendre le besoin, observer les processus existants et définir les enjeux.</p>
+          </div>
+          <div class="reveal reveal-delay-1 relative bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+            <span class="method-number absolute -top-4 -left-2 text-5xl font-display font-bold text-axo-green/20">2</span>
+            <h3 class="text-lg font-display font-bold text-axo-blue">Co-conception</h3>
+            <p class="mt-2 text-sm text-slate-600">Développer avec les utilisateurs pour s'adapter aux contraintes locales.</p>
+          </div>
+          <div class="reveal reveal-delay-2 relative bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+            <span class="method-number absolute -top-4 -left-2 text-5xl font-display font-bold text-axo-green/20">3</span>
+            <h3 class="text-lg font-display font-bold text-axo-blue">Déploiement terrain</h3>
+            <p class="mt-2 text-sm text-slate-600">Installation, tests, recensement et mise en service progressive.</p>
+          </div>
+          <div class="reveal reveal-delay-3 relative bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+            <span class="method-number absolute -top-4 -left-2 text-5xl font-display font-bold text-axo-green/20">4</span>
+            <h3 class="text-lg font-display font-bold text-axo-blue">Formation &amp; suivi</h3>
+            <p class="mt-2 text-sm text-slate-600">Transfert de compétences et accompagnement au quotidien.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Principes qualité -->
+    <section id="qualite" class="py-20 sm:py-28 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto reveal">
+          <h2 class="text-3xl sm:text-4xl font-display font-bold text-axo-blue" data-i18n="quality.title">Nos principes qualité</h2>
+              <p class="mt-4 text-slate-600" data-i18n="quality.subtitle">Des engagements concrets pour livrer des solutions utiles et durables.</p>
+        </div>
+
+        <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="principle-card reveal bg-axo-cream rounded-2xl p-6 border border-slate-100 transition-all hover:shadow-lg">
+            <div class="principle-icon w-12 h-12 rounded-full bg-axo-green/10 text-axo-green flex items-center justify-center mb-4 transition-transform"><span class="font-bold">Ex</span></div>
+            <h3 class="text-base font-display font-bold text-axo-blue">Excellence technique</h3>
+            <p class="mt-2 text-sm text-slate-600">Solutions fiables et bien architecturées.</p>
+          </div>
+          <div class="principle-card reveal reveal-delay-1 bg-axo-cream rounded-2xl p-6 border border-slate-100 transition-all hover:shadow-lg">
+            <div class="principle-icon w-12 h-12 rounded-full bg-axo-green/10 text-axo-green flex items-center justify-center mb-4 transition-transform"><span class="font-bold">Ox</span></div>
+            <h3 class="text-base font-display font-bold text-axo-blue">Oxygène terrain</h3>
+            <p class="mt-2 text-sm text-slate-600">Réponses adaptées aux réalités locales.</p>
+          </div>
+          <div class="principle-card reveal reveal-delay-2 bg-axo-cream rounded-2xl p-6 border border-slate-100 transition-all hover:shadow-lg">
+            <div class="principle-icon w-12 h-12 rounded-full bg-axo-green/10 text-axo-green flex items-center justify-center mb-4 transition-transform"><span class="font-bold">Nu</span></div>
+            <h3 class="text-base font-display font-bold text-axo-blue">Nudge de progrès</h3>
+            <p class="mt-2 text-sm text-slate-600">Amélioration continue et embarquement progressif.</p>
+          </div>
+          <div class="principle-card reveal reveal-delay-3 bg-axo-cream rounded-2xl p-6 border border-slate-100 transition-all hover:shadow-lg">
+            <div class="principle-icon w-12 h-12 rounded-full bg-axo-green/10 text-axo-green flex items-center justify-center mb-4 transition-transform"><span class="font-bold">St</span></div>
+            <h3 class="text-base font-display font-bold text-axo-blue">Simplicité terrain</h3>
+            <p class="mt-2 text-sm text-slate-600">Interfaces claires et accessibles.</p>
+          </div>
+          <div class="principle-card reveal bg-axo-cream rounded-2xl p-6 border border-slate-100 transition-all hover:shadow-lg">
+            <div class="principle-icon w-12 h-12 rounded-full bg-axo-green/10 text-axo-green flex items-center justify-center mb-4 transition-transform"><span class="font-bold">In</span></div>
+            <h3 class="text-base font-display font-bold text-axo-blue">Intelligence de la donnée</h3>
+            <p class="mt-2 text-sm text-slate-600">Valoriser les données pour la décision.</p>
+          </div>
+          <div class="principle-card reveal reveal-delay-1 bg-axo-cream rounded-2xl p-6 border border-slate-100 transition-all hover:shadow-lg">
+            <div class="principle-icon w-12 h-12 rounded-full bg-axo-green/10 text-axo-green flex items-center justify-center mb-4 transition-transform"><span class="font-bold">Tr</span></div>
+            <h3 class="text-base font-display font-bold text-axo-blue">Transparence</h3>
+            <p class="mt-2 text-sm text-slate-600">Process et données explicites.</p>
+          </div>
+          <div class="principle-card reveal reveal-delay-2 bg-axo-cream rounded-2xl p-6 border border-slate-100 transition-all hover:shadow-lg">
+            <div class="principle-icon w-12 h-12 rounded-full bg-axo-green/10 text-axo-green flex items-center justify-center mb-4 transition-transform"><span class="font-bold">Ad</span></div>
+            <h3 class="text-base font-display font-bold text-axo-blue">Adaptabilité</h3>
+            <p class="mt-2 text-sm text-slate-600">Évolution et intégration possibles.</p>
+          </div>
+          <div class="principle-card reveal reveal-delay-3 bg-axo-cream rounded-2xl p-6 border border-slate-100 transition-all hover:shadow-lg">
+            <div class="principle-icon w-12 h-12 rounded-full bg-axo-green/10 text-axo-green flex items-center justify-center mb-4 transition-transform"><span class="font-bold">Do</span></div>
+            <h3 class="text-base font-display font-bold text-axo-blue">Démarche éthique</h3>
+            <p class="mt-2 text-sm text-slate-600">Souveraineté et protection des données.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Équipe -->
+    <section id="equipe" class="py-20 sm:py-28 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto reveal">
+          <h2 class="text-3xl sm:text-4xl font-display font-bold text-axo-blue" data-i18n="team.title">Notre équipe</h2>
+              <p class="mt-4 text-slate-600" data-i18n="team.subtitle">Une équipe sénégalaise passionnée par la tech au service du territoire.</p>
+        </div>
+
+        <div class="mt-14 grid sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div class="reveal team-card bg-axo-cream rounded-2xl p-8 border border-slate-100 text-center">
+            <img src="{{ url_for('static', filename='img/PDG.png') }}?v=1" alt="Mohamed SOW" class="team-avatar w-28 h-28 rounded-full object-cover object-top shadow-lg border-4 border-white mx-auto">
+            <h3 class="mt-5 text-xl font-display font-bold text-axo-blue">Mohamed SOW</h3>
+            <p class="text-sm text-axo-green font-semibold">Co-fondateur – PDG / CEO</p>
+            <p class="mt-3 text-sm text-slate-600">Géomaticien & développeur Full Stack. Il pilote la vision stratégique d’AXONTERRA, les partenariats, l’architecture des solutions SIG et le développement des plateformes numériques.</p>
+            <p class="mt-2 text-xs text-slate-500">Expertises : Géomatique · Full Stack · SIG Web · Laravel · React Native · API REST · IA · PostgreSQL</p>
+          </div>
+          <div class="reveal reveal-delay-1 team-card bg-axo-cream rounded-2xl p-8 border border-slate-100 text-center">
+            <img src="{{ url_for('static', filename='img/DG.jpeg') }}?v=1" alt="Baye Dame DIONG" class="team-avatar w-28 h-28 rounded-full object-cover object-top shadow-lg border-4 border-white mx-auto">
+            <h3 class="mt-5 text-xl font-display font-bold text-axo-blue">Baye Dame DIONG</h3>
+            <p class="text-sm text-axo-green font-semibold">Co-fondateur – DGD / CTO</p>
+            <p class="mt-3 text-sm text-slate-600">Spécialiste de la Data Science et de l’analyse territoriale. Il intervient sur la stratégie financière, l’analyse des données, les indicateurs de performance et l’aide à la décision.</p>
+            <p class="mt-2 text-xs text-slate-500">Expertises : Géomatique · Data Science · Python · R · Machine Learning · Analyse spatiale</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reconnaissances -->
+    <section id="reconnaissances" class="py-20 sm:py-28 bg-axo-cream">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto reveal">
+          <h2 class="text-3xl sm:text-4xl font-display font-bold text-axo-blue" data-i18n="recognition.title">Reconnaissance & soutien</h2>
+          <p class="mt-4 text-slate-600" data-i18n="recognition.subtitle">AXONTERRA est reconnu et accompagné par des acteurs institutionnels et partenaires.</p>
+        </div>
+
+        <div class="mt-14 flex flex-wrap justify-center items-center gap-8 sm:gap-12">
+          <img src="{{ url_for('static', filename='img/partners/adl.png') }}" alt="ADL" class="reveal h-16 w-auto grayscale hover:grayscale-0 transition-all" loading="lazy">
+          <a href="https://www.geosenegal.gouv.sn" target="_blank" rel="noopener" class="reveal reveal-delay-1 inline-flex items-center" aria-label="Géo Sénégal">
+            <img src="{{ url_for('static', filename='img/partners/geosenegal.svg') }}" alt="Géo Sénégal" class="h-16 w-auto hover:opacity-80 transition-all" loading="lazy">
+          </a>
+          <img src="{{ url_for('static', filename='img/partners/golfsud.png') }}" alt="Golf Sud" class="reveal reveal-delay-2 h-16 w-auto grayscale hover:grayscale-0 transition-all" loading="lazy">
+          <img src="{{ url_for('static', filename='img/partners/sandiara.jpg') }}" alt="Mairie de Sandiara" class="reveal reveal-delay-3 h-16 w-auto grayscale hover:grayscale-0 transition-all" loading="lazy">
+        </div>
+
+        <div class="mt-10 grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+          <div class="reveal-left bg-white rounded-2xl p-6 border border-slate-100 text-center">
+            <p class="text-4xl font-display font-bold text-axo-green counter" data-target="2">0</p>
+            <p class="mt-2 text-slate-600">Prix et distinctions</p>
+          </div>
+          <div class="reveal-right bg-white rounded-2xl p-6 border border-slate-100 text-center">
+            <p class="text-4xl font-display font-bold text-axo-green counter" data-target="1">0</p>
+            <p class="mt-2 text-slate-600">Projet pilote en cours</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pourquoi AXONTERRA -->
+    <section id="pourquoi" class="py-20 sm:py-28 bg-axo-blue text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto reveal">
+          <h2 class="text-3xl sm:text-4xl font-display font-bold" data-i18n="why.title">Pourquoi AXONTERRA ?</h2>
+          <p class="mt-4 text-blue-100/90" data-i18n="why.subtitle">Une approche sénégalaise, pragmatique et tournée vers l'impact local.</p>
+        </div>
+
+        <div class="mt-14 grid md:grid-cols-3 gap-8">
+          <div class="reveal bg-white/5 rounded-2xl p-8 border border-white/10">
+            <h3 class="text-xl font-display font-bold text-axo-green">Expertise terrain</h3>
+            <p class="mt-3 text-blue-100/80">Des équipes formées à l'observation, la collecte et l'analyse des données locales, pour des solutions ancrées dans la réalité.</p>
+          </div>
+          <div class="reveal reveal-delay-1 bg-white/5 rounded-2xl p-8 border border-white/10">
+            <h3 class="text-xl font-display font-bold text-axo-green">Solutions adaptées aux collectivités</h3>
+            <p class="mt-3 text-blue-100/80">Des outils pensés pour les administrations locales, leurs contraintes, leurs équipes et leurs usagers.</p>
+          </div>
+          <div class="reveal reveal-delay-2 bg-white/5 rounded-2xl p-8 border border-white/10">
+            <h3 class="text-xl font-display font-bold text-axo-green">Approche orientée impact</h3>
+            <p class="mt-3 text-blue-100/80">Chaque déploiement vise des résultats concrets : transparence, revenus locaux et meilleure décision.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ambition -->
+    <section id="ambition" class="py-20 sm:py-28 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="reveal">
+            <h2 class="text-3xl sm:text-4xl font-display font-bold text-axo-blue" data-i18n="ambition.title">Notre ambition</h2>
+            <p class="mt-6 text-slate-600 leading-relaxed">
+              De Sandiara au Sénégal, puis à l'Afrique de l'Ouest. Nous souhaitons accompagner les collectivités qui veulent moderniser leur gouvernance grâce aux données.
+            </p>
+            <ul class="mt-6 space-y-3 text-slate-600">
+              <li class="flex items-start gap-2"><span class="text-axo-green font-bold">→</span> Faire de SICOFIL une référence nationale pour la fiscalité locale</li>
+              <li class="flex items-start gap-2"><span class="text-axo-green font-bold">→</span> Déployer nos solutions à d'autres communes et pays d'Afrique de l'Ouest</li>
+            </ul>
+          </div>
+          <div class="reveal reveal-delay-1">
+            <div class="reveal-scale map-overlay-wrap aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200 relative">
+              <img src="{{ url_for('static', filename='img/maps/carte-senegal-administrative.jpg') }}?v=1" alt="Carte administrative du Sénégal avec communes pilotes" class="w-full h-full object-cover" loading="lazy">
+              <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <path class="map-line" d="M38,58 L58,40 L78,52" pathLength="1" fill="none" stroke="var(--axo-primary)" stroke-width="0.6"/>
+              </svg>
+              <span class="map-dot absolute" style="left:38%; top:58%;"></span>
+              <span class="map-dot absolute" style="left:58%; top:40%; animation-delay:.5s;"></span>
+              <span class="map-dot absolute" style="left:78%; top:52%; animation-delay:1s;"></span>
+              <span class="absolute text-[10px] font-semibold text-axo-blue bg-white/90 rounded px-1.5 py-0.5" style="left:38%; top:61%; transform: translateX(-50%);">Sandiara</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pilote proposé — Sandiara -->
+    <section id="pilote" class="py-20 sm:py-28 bg-axo-cream">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="reveal">
+            <h2 class="text-3xl sm:text-4xl font-display font-bold text-axo-blue" data-i18n="pilot.title">Pilote proposé — Sandiara</h2>
+            <p class="mt-6 text-slate-600 leading-relaxed">
+              Un déploiement progressif avec la Mairie de Sandiara pour valider SICOFIL sur le terrain, ajuster les outils et préparer un modèle reproductible.
+            </p>
+            <ul class="mt-6 space-y-3 text-slate-600">
+              <li class="flex items-start gap-2"><span class="text-axo-green font-bold">→</span> Recenser et géolocaliser les unités commerciales</li>
+              <li class="flex items-start gap-2"><span class="text-axo-green font-bold">→</span> Structurer les données fiscales de la commune</li>
+              <li class="flex items-start gap-2"><span class="text-axo-green font-bold">→</span> Former les agents et accompagner la prise en main</li>
+              <li class="flex items-start gap-2"><span class="text-axo-green font-bold">→</span> Mesurer l'impact et documenter les retours terrain</li>
+            </ul>
+          </div>
+          <div class="reveal reveal-delay-1">
+            <div class="reveal-scale aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200 relative">
+              <img src="{{ url_for('static', filename='img/maps/carte-sandiara-satellite.png') }}" alt="Carte du périmètre pilote Sandiara" class="w-full h-full object-cover" loading="lazy">
+              <span class="map-dot absolute" style="left:30%; top:35%;"></span>
+              <span class="map-dot absolute" style="left:48%; top:55%; animation-delay:.4s;"></span>
+              <span class="map-dot absolute" style="left:62%; top:30%; animation-delay:.8s;"></span>
+              <span class="map-dot absolute" style="left:40%; top:70%; animation-delay:1.2s;"></span>
+              <span class="map-dot absolute" style="left:70%; top:62%; animation-delay:1.6s;"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Nos missions & réalisations -->
+    <section id="realisations" class="py-20 sm:py-28 bg-axo-blue text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto reveal">
+          <h2 class="text-3xl sm:text-4xl font-display font-bold" data-i18n="projects.title">Nos missions &amp; réalisations</h2>
+          <p class="mt-4 text-blue-100/90" data-i18n="projects.subtitle">Chaque projet est une opportunité d'apprentissage et d'amélioration. Notre référence actuelle : SICOFIL à Sandiara.</p>
+        </div>
+
+        <div class="mt-14 reveal bg-white/5 rounded-2xl p-8 border border-white/10">
+          <h3 class="text-2xl font-display font-bold text-axo-green">SICOFIL — Sandiara</h3>
+          <p class="mt-3 text-blue-100/90 leading-relaxed">
+            Mise en place d'un outil de recensement, de géolocalisation et de suivi des unités commerciales. Accompagnement de la mairie dans la prise en main progressive de la plateforme.
+          </p>
+          <div class="mt-4 flex flex-wrap gap-3">
+            <span class="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-medium">Recensement</span>
+            <span class="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-medium">Cartographie</span>
+            <span class="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-medium">Fiscalité locale</span>
+          </div>
+        </div>
+
+        <div class="mt-10 reveal">
+          <p class="text-sm text-blue-100/70 mb-4">Galerie — photos et vidéos de la mission SICOFIL à Sandiara</p>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {% set realisation_media = media_by_section.get('realisations', []) if media_by_section else [] %}
+            {% if realisation_media %}
+              {% for item in realisation_media %}
+                <div class="reveal {{ 'reveal-delay-' ~ loop.index0 if loop.index0 <= 3 else '' }} aspect-video rounded-xl overflow-hidden border border-white/10">
+                  {% if item.media_type == 'video' %}
+                    <video src="{{ url_for('static', filename='uploads/media/' ~ item.filename) }}" class="w-full h-full object-cover" controls preload="metadata"></video>
+                  {% else %}
+                    <img src="{{ url_for('static', filename='uploads/media/' ~ item.filename) }}" alt="{{ item.title or 'Photo mission AXONTERRA' }}" class="w-full h-full object-cover" loading="lazy">
+                  {% endif %}
+                </div>
+              {% endfor %}
+            {% else %}
+              <div class="reveal aspect-video rounded-xl overflow-hidden border border-white/10">
+                <img src="{{ url_for('static', filename='img/mission/recensement-photo.png') }}" alt="Recensement terrain à Sandiara" class="w-full h-full object-cover" loading="lazy">
+              </div>
+              <div class="reveal reveal-delay-1 aspect-video rounded-xl overflow-hidden border border-white/10">
+                <img src="{{ url_for('static', filename='img/partners/sandiara.jpg') }}" alt="Mairie de Sandiara" class="w-full h-full object-cover" loading="lazy">
+              </div>
+              <div class="reveal reveal-delay-2 aspect-video rounded-xl overflow-hidden border border-white/10">
+                <img src="{{ url_for('static', filename='img/maps/carte-sandiara.png') }}" alt="Carte de la commune de Sandiara" class="w-full h-full object-cover" loading="lazy">
+              </div>
+              <div class="reveal reveal-delay-3 aspect-video rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-center p-4 relative overflow-hidden">
+                <div class="z-10">
+                  <div class="mx-auto w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-2">
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  </div>
+                  <p class="font-semibold text-xs">Vidéo de la mission</p>
+                  <p class="text-[11px] text-blue-100/70 mt-1">(vidéo à ajouter)</p>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-20 sm:py-28 bg-axo-cream">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12">
+        <div class="reveal">
+          <h2 class="text-3xl sm:text-4xl font-display font-bold text-axo-blue" data-i18n="contact.title">Parlons de votre territoire</h2>
+          <p class="mt-4 text-slate-600 leading-relaxed">
+            Vous avez un projet de transformation numérique ? Vous souhaitez déployer SICOFIL dans votre commune ? Contactez-nous.
+          </p>
+          <ul class="mt-8 space-y-4 text-slate-700">
+            <li class="flex items-center gap-3">
+              <span class="w-10 h-10 rounded-full bg-axo-blue/10 text-axo-blue flex items-center justify-center text-sm font-semibold">@</span>
+              <a href="mailto:contact@axonterra.org" class="hover:text-axo-blue transition-colors">contact@axonterra.org</a>
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="w-10 h-10 rounded-full bg-axo-blue/10 text-axo-blue flex items-center justify-center text-sm font-semibold">🌐</span>
+              <a href="https://www.axonterra.org" class="hover:text-axo-blue transition-colors">www.axonterra.org</a>
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="w-10 h-10 rounded-full bg-axo-blue/10 text-axo-blue flex items-center justify-center text-sm font-semibold">☎</span>
+              <a href="tel:+221768009760" class="hover:text-axo-blue transition-colors">+221 76 800 97 60</a>
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="w-10 h-10 rounded-full bg-axo-blue/10 text-axo-blue flex items-center justify-center text-sm font-semibold">📍</span>
+              <span>Dakar, Sénégal</span>
+            </li>
+          </ul>
+        </div>
+
+        <form class="reveal reveal-delay-1 rounded-2xl bg-white border border-slate-200 p-6 sm:p-8 space-y-4 shadow-lg" action="{{ url_for('contact') }}" method="post" novalidate>
+          {{ form.hidden_tag() if form else '' }}
+
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              <div class="space-y-2">
+                {% for category, msg in messages %}
+                  <div class="flash-slide rounded-lg px-4 py-2.5 text-sm {{ 'bg-red-100 text-red-700 border border-red-200' if category == 'error' else 'bg-green-100 text-green-800 border border-green-200' }}">
+                    {{ msg }}
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endwith %}
+
+          <div class="form-honeypot" aria-hidden="true">
+            <label>Ne pas remplir<input type="text" name="hp_check" tabindex="-1" autocomplete="off"></label>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <label class="block">
+              <span class="form-label">Nom complet</span>
+              <input type="text" name="name" required class="form-input" placeholder="Votre nom">
+            </label>
+            <label class="block">
+              <span class="form-label">Organisation / entreprise</span>
+              <input type="text" name="organization" class="form-input" placeholder="Commune, institution…">
+            </label>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <label class="block">
+              <span class="form-label">Email</span>
+              <input type="email" name="email" required class="form-input" placeholder="vous@commune.sn">
+            </label>
+            <label class="block">
+              <span class="form-label">Téléphone</span>
+              <input type="tel" name="phone" class="form-input" placeholder="+221 XX XXX XX XX">
+            </label>
+          </div>
+          <label class="block">
+            <span class="form-label">Sujet</span>
+            <input type="text" name="subject" required class="form-input" placeholder="Demande de démo, partenariat…">
+          </label>
+          <label class="block">
+            <span class="form-label">Message</span>
+            <textarea name="message" rows="4" required class="form-input" placeholder="Décrivez votre besoin…"></textarea>
+          </label>
+          <button type="submit" class="w-full rounded-lg bg-axo-green px-6 py-3 font-semibold text-white hover:bg-axo-green-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-axo-green transition-all duration-200 shadow-lg shadow-green-500/20">
+            Envoyer le message
+          </button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-axo-blue text-white text-sm reveal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div>
+        <img src="{{ url_for('static', filename='img/logo-axonterra-blanc.png') }}" alt="AXONTERRA" class="h-24 w-auto mb-4">
+        <p class="text-blue-100/80">Connecter le territoire aux données.</p>
+      </div>
+      <div>
+        <p class="font-semibold uppercase text-xs tracking-wider text-blue-200 mb-3">Navigation</p>
+        <ul class="space-y-2">
+          <li><a href="#a-propos" class="text-blue-100/80 hover:text-white transition-colors">À propos</a></li>
+          <li><a href="#sicofil" class="text-blue-100/80 hover:text-white transition-colors">SICOFIL</a></li>
+          <li><a href="#solutions" class="text-blue-100/80 hover:text-white transition-colors">Solutions</a></li>
+          <li><a href="#contact" class="text-blue-100/80 hover:text-white transition-colors">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold uppercase text-xs tracking-wider text-blue-200 mb-3">Contact</p>
+        <ul class="space-y-2 text-blue-100/80">
+          <li><a href="mailto:contact@axonterra.org" class="hover:text-white transition-colors">contact@axonterra.org</a></li>
+          <li><a href="tel:+221768009760" class="hover:text-white transition-colors">+221 76 800 97 60</a></li>
+          <li>Dakar, Sénégal</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold uppercase text-xs tracking-wider text-blue-200 mb-3">Suivez-nous</p>
+        <div class="flex gap-4">
+          <a href="#" aria-label="LinkedIn" class="text-blue-100/80 hover:text-white transition-colors" target="_blank" rel="noopener">
+            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook" class="text-blue-100/80 hover:text-white transition-colors" target="_blank" rel="noopener">
+            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="#" aria-label="X" class="text-blue-100/80 hover:text-white transition-colors" target="_blank" rel="noopener">
+            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-white/10 py-4 text-center text-xs text-blue-200/60">
+      © 2026 AXONTERRA SAS — Dakar, Sénégal · Tous droits réservés
+    </div>
+  </footer>
+
+  <button id="scroll-top" aria-label="Retour en haut" class="hidden">
+    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+  </button>
+
+  <!-- Jarvis AI Assistant Widget -->
+  <div class="jarvis-widget" id="jarvis-widget">
+    <div class="jarvis-panel" id="jarvis-panel" role="dialog" aria-label="Assistant AXONTERRA" aria-hidden="true">
+      <div class="jarvis-panel-header">
+        <div class="jarvis-panel-avatar">
+          <img src="{{ url_for('static', filename='img/logo-axonterra-blanc.png') }}" alt="AXONTERRA" class="jarvis-avatar-img">
+        </div>
+        <div>
+          <p class="text-white font-semibold text-sm leading-tight">Assistant AXONTERRA</p>
+          <p class="text-[11px] text-emerald-200/80 flex items-center gap-1.5"><span class="jarvis-status-dot"></span>En ligne</p>
+        </div>
+        <button type="button" class="jarvis-panel-close" id="jarvis-close" aria-label="Fermer l'assistant">
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="jarvis-messages" id="jarvis-messages">
+        <div class="jarvis-msg jarvis-msg-bot">
+          Bonjour 👋 Je suis l'assistant virtuel d'AXONTERRA. Cette fonctionnalité est en cours de déploiement — posez-moi une question, je fais de mon mieux !
+        </div>
+      </div>
+      <form class="jarvis-panel-footer" id="jarvis-form">
+        <input type="text" class="jarvis-input" id="jarvis-input" placeholder="Écrivez votre message…" autocomplete="off" aria-label="Votre message">
+        <button type="submit" class="jarvis-send" aria-label="Envoyer">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19V5m0 0l-6 6m6-6l6 6"/></svg>
+        </button>
+      </form>
+    </div>
+
+    <button type="button" class="jarvis-orb-btn" id="jarvis-toggle" aria-label="Ouvrir l'assistant AXONTERRA" aria-expanded="false">
+      <span class="jarvis-ring"></span>
+      <span class="jarvis-ring jarvis-ring-2"></span>
+      <span class="jarvis-ring jarvis-ring-3"></span>
+      <img src="{{ url_for('static', filename='img/logo-axonterra-blanc.png') }}" alt="" class="jarvis-orb-core">
+      <span class="jarvis-badge"></span>
+    </button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="{{ url_for('static', filename='js/globe3d.js') }}?v=9"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}?v=25"></script>
+  <script src="{{ url_for('static', filename='js/i18n.js') }}?v=2"></script>
+</body>
+</html>

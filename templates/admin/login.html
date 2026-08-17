@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion administration — AxonTerra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            terra: { 50:'#f2f7f5',100:'#dcebe5',200:'#b9d7cc',300:'#8dbcab',400:'#5e9c87',500:'#3f806c',600:'#2e6656',700:'#275247',800:'#22433b',900:'#0f2b25',950:'#081b17' },
+            ocre: { 400:'#d9974f',500:'#c77b3b',600:'#a86230' }
+          },
+          fontFamily: { display: ['Sora','sans-serif'], body: ['Inter','sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}?v=9">
+</head>
+<body class="font-body bg-terra-950 min-h-screen flex items-center justify-center px-4">
+  <div class="w-full max-w-sm">
+    <div class="text-center mb-8">
+      <img src="{{ url_for('static', filename='img/logo-axonterra-blanc.png') }}" alt="AxonTerra" class="h-14 w-auto mx-auto">
+      <p class="mt-3 text-terra-200 text-sm uppercase tracking-widest font-semibold">Administration</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="mb-4 space-y-2">
+          {% for category, msg in messages %}
+            <div class="rounded-lg px-4 py-2.5 text-sm {{ 'bg-red-500/15 text-red-200 border border-red-500/30' if category == 'error' else 'bg-terra-500/15 text-terra-100 border border-terra-500/30' }}">
+              {{ msg }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" class="rounded-2xl bg-terra-900/70 border border-terra-700/60 p-6 sm:p-8 space-y-4">
+      {{ form.hidden_tag() }}
+      <label class="block">
+        <span class="form-label text-terra-100">Email</span>
+        {{ form.username(class="form-input", placeholder="contact@axonterra.org", autocomplete="username") }}
+      </label>
+      <label class="block">
+        <span class="form-label text-terra-100">Mot de passe</span>
+        {{ form.password(class="form-input", placeholder="••••••••", autocomplete="current-password") }}
+      </label>
+      <button type="submit" class="w-full rounded-full bg-ocre-500 px-6 py-3 font-semibold text-white hover:bg-ocre-600 transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocre-400">
+        Se connecter
+      </button>
+    </form>
+    <p class="mt-6 text-center text-xs text-terra-400">
+      <a href="{{ url_for('index') }}" class="hover:text-terra-200 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocre-400 rounded">← Retour au site</a>
+    </p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f2f7f5" rx="16"/>
+  <circle cx="200" cy="120" r="50" fill="#dcebe5"/>
+  <text x="200" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#475569">Photo de l'équipe</text>
+  <text x="200" y="225" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#64748b">Ajoutez ici une image réelle</text>
+</svg>

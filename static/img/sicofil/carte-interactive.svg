@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225">
+  <rect width="400" height="225" rx="12" fill="#eaf3ee"/>
+  <rect x="0" y="0" width="400" height="225" rx="12" fill="none" stroke="#dcebe5" stroke-width="2"/>
+  <g stroke="#c7ded4" stroke-width="1">
+    <line x1="0" y1="45" x2="400" y2="45"/>
+    <line x1="0" y1="90" x2="400" y2="90"/>
+    <line x1="0" y1="135" x2="400" y2="135"/>
+    <line x1="0" y1="180" x2="400" y2="180"/>
+    <line x1="66" y1="0" x2="66" y2="225"/>
+    <line x1="132" y1="0" x2="132" y2="225"/>
+    <line x1="200" y1="0" x2="200" y2="225"/>
+    <line x1="266" y1="0" x2="266" y2="225"/>
+    <line x1="332" y1="0" x2="332" y2="225"/>
+  </g>
+  <path d="M40 190 C90 150 120 170 160 130 C200 90 240 120 300 70 C330 50 350 55 370 40" fill="none" stroke="#2e6656" stroke-width="3" opacity="0.5"/>
+  <g fill="#0f2b25">
+    <path d="M110 95 c0 -14 11 -22 22 -22 s22 8 22 22 c0 16 -22 36 -22 36 s-22 -20 -22 -36 z" fill="#2e6656"/>
+    <circle cx="132" cy="94" r="7" fill="#ffffff"/>
+    <path d="M230 130 c0 -14 11 -22 22 -22 s22 8 22 22 c0 16 -22 36 -22 36 s-22 -20 -22 -36 z" fill="#0d2f2b"/>
+    <circle cx="252" cy="129" r="7" fill="#ffffff"/>
+    <path d="M300 60 c0 -14 11 -22 22 -22 s22 8 22 22 c0 16 -22 36 -22 36 s-22 -20 -22 -36 z" fill="#2e6656"/>
+    <circle cx="322" cy="59" r="7" fill="#ffffff"/>
+  </g>
+  <rect x="16" y="16" width="34" height="80" rx="8" fill="#ffffff" stroke="#dcebe5" stroke-width="1.5"/>
+  <text x="33" y="34" text-anchor="middle" font-family="Arial" font-size="16" fill="#2e6656">+</text>
+  <line x1="20" y1="52" x2="46" y2="52" stroke="#dcebe5" stroke-width="1.5"/>
+  <text x="33" y="72" text-anchor="middle" font-family="Arial" font-size="16" fill="#2e6656">−</text>
+  <text x="200" y="212" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="10" fill="#3f5d54">Aperçu illustratif — Carte interactive SICOFIL</text>
+</svg>

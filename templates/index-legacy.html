@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AXON-TERRA — Connecter le territoire aux données</title>
+  <meta name="description" content="AXON-TERRA, startup sénégalaise GeoTech / DataTech / GovTech. Solutions SIG, fiscalité locale et data territoriale pour les collectivités. Produit phare : SICOFIL.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            terra: {
+              50:  '#f2f7f5',
+              100: '#dcebe5',
+              200: '#b9d7cc',
+              300: '#8dbcab',
+              400: '#5e9c87',
+              500: '#3f806c',
+              600: '#2e6656',
+              700: '#275247',
+              800: '#22433b',
+              900: '#0f2b25',
+              950: '#081b17'
+            },
+            ocre: {
+              400: '#d9974f',
+              500: '#c77b3b',
+              600: '#a86230'
+            },
+            slatex: {
+              600: '#475569',
+              700: '#334155',
+              800: '#1e293b'
+            }
+          },
+          fontFamily: {
+            display: ['Sora', 'sans-serif'],
+            body: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}?v=13">
+</head>
+<body class="font-body text-slatex-700 bg-white antialiased">
+
+  <!-- ===================== SKIP LINK (accessibilité clavier) ===================== -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:rounded-lg focus:bg-terra-800 focus:text-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold">Aller au contenu principal</a>
+
+  <!-- ===================== NAV ===================== -->
+  <div id="scroll-progress" aria-hidden="true"></div>
+  <header id="navbar" class="on-hero fixed top-0 inset-x-0 z-50 transition-all duration-300 bg-white/90 backdrop-blur border-b border-transparent">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+      <a href="#hero" class="flex items-center group" aria-label="AxonTerra — accueil">
+        <img id="logo-primary" src="{{ url_for('static', filename='img/logo-axonterra.png') }}" alt="AxonTerra" class="h-36 w-auto">
+        <img id="logo-secondary" src="{{ url_for('static', filename='img/logo-axonterra-blanc.png') }}" alt="AxonTerra" class="h-36 w-auto hidden">
+      </a>
+      <div class="hidden lg:flex items-center gap-1 text-sm font-medium">
+        <a href="#mission" class="nav-link">Mission</a>
+        <a href="#equipe" class="nav-link">Équipe</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="#contact" class="hidden sm:inline-flex items-center gap-2 rounded-full bg-terra-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-terra-600 hover:-translate-y-0.5 hover:scale-[1.03] active:scale-95 active:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terra-600 transition-all duration-200">
+          Demander une démo
+        </a>
+        <button id="menu-btn" class="lg:hidden p-2 rounded-lg hover:bg-terra-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terra-600" aria-label="Menu" aria-expanded="false">
+          <svg class="h-6 w-6 text-terra-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </nav>
+    <div id="mobile-menu" class="hidden lg:hidden border-t border-terra-100 bg-white px-4 py-3 space-y-1 text-sm font-medium">
+      <a href="#mission" class="block px-3 py-2 rounded-lg hover:bg-terra-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terra-600 focus-visible:outline-offset-2">Mission</a>
+      <a href="#equipe" class="block px-3 py-2 rounded-lg hover:bg-terra-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terra-600 focus-visible:outline-offset-2">Équipe</a>
+      <a href="#contact" class="block px-3 py-2 rounded-lg bg-terra-800 text-white text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-ocre-400 focus-visible:outline-offset-2">Contact</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- ===================== HERO ===================== -->
+    <section id="hero" class="hero-dark relative overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-20">
+      <div class="absolute inset-0 hero-grid-dark" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-1" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-2" aria-hidden="true"></div>
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <!-- Colonne texte -->
+          <div class="reveal text-center lg:text-left">
+            <p class="inline-flex items-center gap-2 rounded-full border border-terra-400/30 bg-white/5 px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-terra-200 shadow-sm backdrop-blur">
+              GeoTech · DataTech · GovTech — Sénégal
+            </p>
+            <h1 class="mt-8 font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight text-white">
+              <span class="hero-line">AxonTerra connecte votre commune</span><br>
+              <span class="hero-line">aux <span class="hero-word">données</span>, aux <span class="hero-word">lieux</span> et aux <span class="hero-word">ressources</span></span><br>
+              <span class="hero-line">de votre territoire.</span>
+            </h1>
+            <p class="mt-6 text-terra-100/80 max-w-lg mx-auto lg:mx-0">
+              Centralisez, cartographiez et pilotez vos données territoriales depuis une seule plateforme intelligente et sécurisée.
+            </p>
+            <div class="mt-10 flex flex-wrap justify-center lg:justify-start gap-4">
+              <a href="#contact" class="btn-primary">
+                Demander une démo
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5-5 5M6 12h12m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+              </a>
+              <a href="#plateforme" class="btn-secondary btn-secondary-dark">Découvrir SICOFIL</a>
+            </div>
+          </div>
+
+          <!-- Colonne globe + cartes flottantes -->
+          <div class="reveal reveal-delay-1 flex justify-center">
+            <div class="relative w-full max-w-md globe-float" id="globe-wrapper">
+              <div class="globe-bg" aria-hidden="true"></div>
+              <canvas id="hero-globe" class="w-full aspect-square relative z-10" role="img" aria-label="Globe connecté — AxonTerra, connecter le territoire aux données"></canvas>
+              <div class="orbit-ring" aria-hidden="true"></div>
+              <div class="orbit-text" id="orbit-text" aria-hidden="true"></div>
+
+              <!-- Cartes de stats flottantes -->
+              <div class="stat-chip stat-chip-1" aria-hidden="true">
+                <span class="stat-chip-icon"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></span>
+                <span><strong>4</strong><small>Modules SICOFIL</small></span>
+              </div>
+              <div class="stat-chip stat-chip-2" aria-hidden="true">
+                <span class="stat-chip-icon"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg></span>
+                <span><strong>6</strong><small>Offres de service</small></span>
+              </div>
+              <div class="stat-chip stat-chip-3" aria-hidden="true">
+                <span class="stat-chip-icon"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15a3 3 0 100-6 3 3 0 000 6zm0 0v8m-4 0h8"/></svg></span>
+                <span><strong>2</strong><small>Distinctions 2025</small></span>
+              </div>
+              <div class="stat-chip stat-chip-4" aria-hidden="true">
+                <span class="stat-chip-icon"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5-5 5M6 12h12"/></svg></span>
+                <span><strong>5</strong><small>Axes stratégiques</small></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== BANDEAU DE CONFIANCE (marquee) ===================== -->
+    <section class="border-y border-terra-100 bg-white py-16 overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+        <p class="text-sm sm:text-base font-semibold uppercase tracking-widest text-slatex-600">Reconnu et soutenu par des acteurs institutionnels</p>
+      </div>
+      <div class="marquee mt-10" aria-label="Partenaires institutionnels">
+        <div class="marquee-track">
+          <div class="marquee-group">
+            <span class="partner-badge" aria-label="Ministère des Collectivités territoriales"><img src="{{ url_for('static', filename='img/partners/ministere.png') }}" alt="Ministère des Collectivités territoriales"></span>
+            <span class="partner-badge" aria-label="Agence de Développement Local"><img src="{{ url_for('static', filename='img/partners/adl.png') }}" alt="Agence de Développement Local"></span>
+            <span class="partner-badge" aria-label="Mairie de Golf Sud"><img src="{{ url_for('static', filename='img/partners/golfsud.png') }}" alt="Mairie de Golf Sud"></span>
+            <span class="partner-badge" aria-label="GeoInnov · Geo Sénégal"><img src="{{ url_for('static', filename='img/partners/geosenegal.png') }}" alt="GeoInnov · Geo Sénégal"></span>
+            <span class="partner-badge" aria-label="Commune de Sandiara"><img src="{{ url_for('static', filename='img/partners/sandiara.jpg') }}" alt="Commune de Sandiara"></span>
+          </div>
+          <div class="marquee-group" aria-hidden="true">
+            <span class="partner-badge" aria-label="Ministère des Collectivités territoriales"><img src="{{ url_for('static', filename='img/partners/ministere.png') }}" alt="Ministère des Collectivités territoriales"></span>
+            <span class="partner-badge" aria-label="Agence de Développement Local"><img src="{{ url_for('static', filename='img/partners/adl.png') }}" alt="Agence de Développement Local"></span>
+            <span class="partner-badge" aria-label="Mairie de Golf Sud"><img src="{{ url_for('static', filename='img/partners/golfsud.png') }}" alt="Mairie de Golf Sud"></span>
+            <span class="partner-badge" aria-label="GeoInnov · Geo Sénégal"><img src="{{ url_for('static', filename='img/partners/geosenegal.png') }}" alt="GeoInnov · Geo Sénégal"></span>
+            <span class="partner-badge" aria-label="Commune de Sandiara"><img src="{{ url_for('static', filename='img/partners/sandiara.jpg') }}" alt="Commune de Sandiara"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== DÉCOUVERTE ===================== -->
+    <section id="apropos" class="py-20 sm:py-28 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto text-center reveal">
+          <h2 class="section-title">Voyez ce qui se passe dans votre commune</h2>
+          <p class="mt-5 text-lg">
+            Chaque unité commerciale, chaque paiement, chaque zone fiscale — <strong class="text-terra-800">visible en temps réel sur une carte.</strong>
+          </p>
+        </div>
+        <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="pillar-card reveal">
+            <div class="pillar-icon"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg></div>
+            <h3>Géomatique</h3>
+            <p>Représenter et analyser le territoire.</p>
+          </div>
+          <div class="pillar-card reveal reveal-delay-1">
+            <div class="pillar-icon"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg></div>
+            <h3>Développement logiciel</h3>
+            <p>Créer des plateformes web et mobiles fiables.</p>
+          </div>
+          <div class="pillar-card reveal reveal-delay-2">
+            <div class="pillar-icon"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+            <h3>Data science</h3>
+            <p>Transformer les données en indicateurs utiles.</p>
+          </div>
+          <div class="pillar-card reveal reveal-delay-3">
+            <div class="pillar-icon"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg></div>
+            <h3>Gouvernance locale</h3>
+            <p>Améliorer la performance des collectivités.</p>
+          </div>
+        </div>
+
+        <!-- Sandiara origin -->
+        <div id="nee-du-terrain" class="mt-16 grid lg:grid-cols-2 gap-10 items-center rounded-2xl bg-terra-50 border border-terra-100 p-8 sm:p-12 reveal">
+          <div>
+            <p class="section-tag">Née du terrain</p>
+            <h3 class="font-display text-2xl font-bold text-terra-900 mt-2">Une solution née à Sandiara</h3>
+            <p class="mt-4">
+              Registres papier, données dispersées, paiements difficiles à suivre : de ce constat observé à Sandiara est né <strong class="text-terra-800">SICOFIL</strong>.
+            </p>
+          </div>
+          <blockquote class="border-l-4 border-ocre-500 pl-6">
+            <p class="font-display text-xl font-semibold text-terra-900 leading-relaxed">
+              « Un territoire mieux cartographié est un territoire mieux gouverné. »
+            </p>
+            <p class="mt-3 text-sm text-slatex-600">
+              Vision : devenir une référence GovTech au Sénégal et en Afrique de l'Ouest.
+            </p>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== MISSION & PHOTOS ===================== -->
+    <section id="mission" class="py-20 sm:py-28 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="reveal reveal-left">
+            <p class="section-tag">Notre mission</p>
+            <h2 class="section-title mt-2">Renforcer la gouvernance locale par les données et la cartographie</h2>
+            <p class="mt-5 text-slatex-600 leading-relaxed">
+              AxonTerra accompagne les communes et institutions sénégalaises dans la transformation numérique de leur action publique. De la collecte de données terrain aux tableaux de bord stratégiques, nous rendons les territoires plus lisibles, plus transparents et mieux pilotés.
+            </p>
+            <ul class="mission-list mt-6 space-y-3">
+              <li>Moderniser la fiscalité locale et la gestion foncière</li>
+              <li>Offrir des outils géospatiaux accessibles à tous les échelons</li>
+              <li>Produire des indicateurs fiables pour la décision publique</li>
+              <li>Accompagner le passage du papier au numérique</li>
+            </ul>
+          </div>
+          <div class="mission-photo-grid reveal reveal-right">
+            <div class="mission-photo mission-photo-main">
+              <img src="{{ url_for('static', filename='img/mission/equipe.svg') }}" alt="Équipe AxonTerra" loading="lazy">
+            </div>
+            <div class="mission-photo">
+              <img src="{{ url_for('static', filename='img/mission/terrain.svg') }}" alt="Travail de terrain" loading="lazy">
+            </div>
+            <div class="mission-photo">
+              <img src="{{ url_for('static', filename='img/mission/fondateur.svg') }}" alt="Fondateur AxonTerra" loading="lazy">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== DISTINCTIONS ===================== -->
+    <section id="distinctions" class="py-20 sm:py-28 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl reveal">
+          <p class="section-tag">Reconnaissances</p>
+          <h2 class="section-title">Une pertinence déjà reconnue</h2>
+        </div>
+        <div class="mt-12 grid md:grid-cols-2 gap-6">
+          <article class="award-card reveal">
+            <div class="award-icon"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15a7 7 0 100-14 7 7 0 000 14zm0 0v8m-4 0h8"/></svg></div>
+            <h3>Hackathon du Développement Local</h3>
+            <p>SICOFIL distingué en février 2025 à la Mairie de Golf Sud, aux côtés du Ministère des Collectivités territoriales et de l'ADL.</p>
+          </article>
+          <article class="award-card reveal reveal-delay-1">
+            <div class="award-icon"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+            <h3>GeoInnov / Geo Sénégal 2025</h3>
+            <p>Reconnu dans l'écosystème géospatial sénégalais via le programme GeoInnov 2025.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ÉQUIPE ===================== -->
+    <section id="equipe" class="py-20 sm:py-28 bg-terra-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl reveal">
+          <p class="section-tag">Équipe fondatrice</p>
+          <h2 class="section-title">Une équipe complémentaire, née de la géomatique</h2>
+        </div>
+        <div class="mt-12 grid md:grid-cols-2 gap-6">
+          <article class="team-card reveal">
+            <div class="flex items-center gap-4">
+              <span class="team-avatar">MS</span>
+              <div>
+                <h3 class="font-display text-lg font-bold text-terra-900">Mohamed SOW</h3>
+                <p class="text-sm text-ocre-600 font-semibold">Co-fondateur — Président Directeur Général / CEO</p>
+              </div>
+            </div>
+            <ul class="mt-5 space-y-2 text-sm">
+              <li>Vision stratégique et partenariats institutionnels</li>
+              <li>Architecture des solutions SIG et numériques</li>
+            </ul>
+            <p class="team-skills">Géomatique · Full Stack · SIG Web · IA</p>
+          </article>
+          <article class="team-card reveal reveal-delay-1">
+            <div class="flex items-center gap-4">
+              <span class="team-avatar">BD</span>
+              <div>
+                <h3 class="font-display text-lg font-bold text-terra-900">Baye Dame DIONG</h3>
+                <p class="text-sm text-ocre-600 font-semibold">Co-fondateur — Directeur Général Délégué / CTO</p>
+              </div>
+            </div>
+            <ul class="mt-5 space-y-2 text-sm">
+              <li>Data Science et Business Intelligence</li>
+              <li>Indicateurs de performance et aide à la décision</li>
+            </ul>
+            <p class="team-skills">Géomatique · Data Science · Machine Learning · Power BI</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CTA ===================== -->
+    <section class="bg-white py-16 sm:py-20">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+        <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-terra-900">Prêt à moderniser la fiscalité de votre commune ?</h2>
+        <p class="mt-4 text-slatex-600 text-lg">Découvrez comment SICOFIL peut transformer la gestion de vos recettes locales.</p>
+        <div class="mt-8 flex flex-wrap justify-center gap-4">
+          <a href="#contact" class="btn-primary">Demander une démo</a>
+          <a href="mailto:contact@axonterra.org" class="btn-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-ocre-400 focus-visible:outline-offset-2">Nous écrire</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section id="contact" class="py-20 sm:py-28 bg-terra-950 text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12">
+        <div class="reveal">
+          <p class="section-tag text-ocre-400">Contact</p>
+          <h2 class="section-title text-white">Parlons de votre territoire</h2>
+          <p class="mt-5 text-terra-100/90">Des questions ? Un projet ? Envie de devenir partenaire ou d'investir ? Nous serons ravis de vous lire.</p>
+          <ul class="mt-8 space-y-4 text-terra-100">
+            <li class="contact-line"><span class="contact-ico" aria-hidden="true">@</span><a href="mailto:contact@axonterra.org" class="hover:text-ocre-400 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ocre-400 focus-visible:outline-offset-2 rounded">contact@axonterra.org</a></li>
+            <li class="contact-line"><span class="contact-ico" aria-hidden="true">🌐</span><a href="https://www.axonterra.org" class="hover:text-ocre-400 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ocre-400 focus-visible:outline-offset-2 rounded">www.axonterra.org</a></li>
+            <li class="contact-line"><span class="contact-ico" aria-hidden="true">☎</span><a href="tel:+221768009760" class="hover:text-ocre-400 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ocre-400 focus-visible:outline-offset-2 rounded">+221 76 800 97 60</a></li>
+            <li class="contact-line"><span class="contact-ico" aria-hidden="true">📍</span>Dakar, Sénégal</li>
+          </ul>
+        </div>
+        <form class="reveal reveal-delay-1 rounded-2xl bg-terra-900/70 border border-terra-700/60 p-6 sm:p-8 space-y-4" action="{{ url_for('contact') }}" method="post" novalidate>
+          {{ form.hidden_tag() if form else '' }}
+
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              <div class="space-y-2">
+                {% for category, msg in messages %}
+                  <div class="rounded-lg px-4 py-2.5 text-sm {{ 'bg-red-500/15 text-red-200 border border-red-500/30' if category == 'error' else 'bg-terra-500/15 text-terra-100 border border-terra-500/30' }}">
+                    {{ msg }}
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endwith %}
+
+          <!-- Piège à spam : champ invisible pour les humains, rempli seulement par les bots -->
+          <div class="form-honeypot" aria-hidden="true">
+            <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <label class="block">
+              <span class="form-label">Nom complet</span>
+              <input type="text" name="name" required class="form-input" placeholder="Votre nom">
+            </label>
+            <label class="block">
+              <span class="form-label">Organisation / entreprise</span>
+              <input type="text" name="organization" class="form-input" placeholder="Commune, institution…">
+            </label>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <label class="block">
+              <span class="form-label">Email</span>
+              <input type="email" name="email" required class="form-input" placeholder="vous@commune.sn">
+            </label>
+            <label class="block">
+              <span class="form-label">Téléphone</span>
+              <input type="tel" name="phone" class="form-input" placeholder="+221 XX XXX XX XX">
+            </label>
+          </div>
+          <label class="block">
+            <span class="form-label">Sujet</span>
+            <input type="text" name="subject" required class="form-input" placeholder="Demande de démo, partenariat…">
+          </label>
+          <label class="block">
+            <span class="form-label">Message</span>
+            <textarea name="message" rows="4" required class="form-input" placeholder="Décrivez votre besoin…"></textarea>
+          </label>
+          <button type="submit" class="w-full rounded-full bg-ocre-500 px-6 py-3 font-semibold text-white hover:bg-ocre-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocre-400 transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.01] active:scale-[0.98]">
+            Envoyer le message
+          </button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-terra-950 border-t border-terra-800 text-terra-300 text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid md:grid-cols-3 gap-8">
+      <div>
+        <img src="{{ url_for('static', filename='img/logo-axonterra-blanc.png') }}" alt="AxonTerra" class="h-36 w-auto transition-all duration-500 hover:scale-105">
+        <p class="mt-3">Connecter le territoire aux données.</p>
+        <p class="mt-1 italic">« Nous ne gagnons que si la commune gagne. »</p>
+      </div>
+      <div>
+        <p class="font-semibold text-terra-100 uppercase text-xs tracking-widest">Navigation</p>
+        <ul class="mt-3 space-y-1.5">
+          <li><a href="#mission" class="hover:text-white transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ocre-400 focus-visible:outline-offset-2 rounded">Mission</a></li>
+          <li><a href="#equipe" class="hover:text-white transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ocre-400 focus-visible:outline-offset-2 rounded">Équipe</a></li>
+          <li><a href="#contact" class="hover:text-white transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ocre-400 focus-visible:outline-offset-2 rounded">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold text-terra-100 uppercase text-xs tracking-widest">Contact</p>
+        <ul class="mt-3 space-y-1.5">
+          <li><a href="mailto:contact@axonterra.org" class="hover:text-white transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ocre-400 focus-visible:outline-offset-2 rounded">contact@axonterra.org</a></li>
+          <li>www.axonterra.org</li>
+          <li>Dakar, Sénégal</li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-terra-800 py-4 text-center text-xs text-terra-400">
+      © 2026 AXONTERRA SAS — Dakar, Sénégal · Tous droits réservés
+    </div>
+  </footer>
+
+  <button id="scroll-top" aria-label="Retour en haut" class="hidden">
+    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+  </button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}?v=9"></script>
+  <script src="{{ url_for('static', filename='js/globe3d.js') }}?v=8"></script>
+</body>
+</html>

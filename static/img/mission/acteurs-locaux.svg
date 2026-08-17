@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225">
+  <rect width="400" height="225" rx="16" fill="#f2f7f5"/>
+  <rect x="0" y="0" width="400" height="225" rx="16" fill="none" stroke="#dcebe5" stroke-width="2"/>
+  <g fill="#2e6656">
+    <circle cx="150" cy="90" r="20"/>
+    <path d="M115 150 c0 -22 18 -34 35 -34 s35 12 35 34" opacity="0.9"/>
+  </g>
+  <g fill="#0f2b25" opacity="0.85">
+    <circle cx="210" cy="80" r="24"/>
+    <path d="M168 150 c0 -26 20 -40 42 -40 s42 14 42 40" />
+  </g>
+  <g fill="#2e6656" opacity="0.6">
+    <circle cx="270" cy="92" r="18"/>
+    <path d="M240 150 c0 -20 14 -30 30 -30 s30 10 30 30" />
+  </g>
+  <text x="200" y="200" text-anchor="middle" font-family="Sora, Arial, sans-serif" font-size="16" font-weight="700" fill="#0f2b25">Acteurs locaux</text>
+  <text x="200" y="26" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" fill="#64748b">Illustration temporaire — photo réelle à insérer</text>
+</svg>

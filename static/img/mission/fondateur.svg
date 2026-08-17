@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+  <rect width="300" height="300" fill="#f2f7f5" rx="16"/>
+  <circle cx="150" cy="120" r="50" fill="#dcebe5"/>
+  <text x="150" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#475569">Photo fondateur</text>
+</svg>

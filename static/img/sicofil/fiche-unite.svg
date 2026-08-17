@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225">
+  <rect width="400" height="225" rx="12" fill="#f8fafc"/>
+  <rect x="0" y="0" width="400" height="225" rx="12" fill="none" stroke="#dcebe5" stroke-width="2"/>
+  <rect x="30" y="20" width="340" height="185" rx="10" fill="#ffffff" stroke="#dcebe5" stroke-width="1.5"/>
+  <rect x="50" y="38" width="56" height="56" rx="8" fill="#dcebe5"/>
+  <path d="M66 66 l8 8 l14 -16" stroke="#2e6656" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="122" y="42" width="140" height="10" rx="4" fill="#0f2b25" opacity="0.85"/>
+  <rect x="122" y="60" width="100" height="8" rx="4" fill="#94a3b8"/>
+  <rect x="122" y="76" width="120" height="8" rx="4" fill="#94a3b8" opacity="0.7"/>
+  <rect x="290" y="38" width="60" height="56" rx="8" fill="#2e6656" opacity="0.12"/>
+  <text x="320" y="70" text-anchor="middle" font-family="Sora, Arial, sans-serif" font-size="12" font-weight="700" fill="#2e6656">Zone A</text>
+  <g stroke="#dcebe5" stroke-width="1.5">
+    <line x1="50" y1="112" x2="350" y2="112"/>
+  </g>
+  <g fill="#64748b" font-family="Inter, Arial, sans-serif" font-size="10">
+    <text x="50" y="132">N° unité</text>
+    <text x="50" y="152">Coordonnées GPS</text>
+    <text x="50" y="172">Statut fiscal</text>
+  </g>
+  <g fill="#0f2b25" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="600">
+    <text x="180" y="132">UC-2025-0148</text>
+    <text x="180" y="152">14.235° N, 16.735° W</text>
+    <text x="180" y="172">À jour</text>
+  </g>
+  <text x="200" y="215" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="10" fill="#64748b">Aperçu illustratif — Fiche unité commerciale</text>
+</svg>

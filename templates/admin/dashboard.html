@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages / Contacts — Administration AxonTerra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            terra: { 50:'#f2f7f5',100:'#dcebe5',200:'#b9d7cc',300:'#8dbcab',400:'#5e9c87',500:'#3f806c',600:'#2e6656',700:'#275247',800:'#22433b',900:'#0f2b25',950:'#081b17' },
+            ocre: { 400:'#d9974f',500:'#c77b3b',600:'#a86230' }
+          },
+          fontFamily: { display: ['Sora','sans-serif'], body: ['Inter','sans-serif'] }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="font-body bg-terra-50 min-h-screen text-slate-700">
+
+  <header class="bg-terra-950 text-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="{{ url_for('static', filename='img/logo-axonterra-blanc.png') }}" alt="AxonTerra" class="h-11 w-auto">
+        <span class="font-display font-bold tracking-wide">Administration</span>
+      </div>
+      <div class="flex items-center gap-4 text-sm">
+        <span class="text-terra-300">Connecté : <strong class="text-white">{{ session.get('admin_username') }}</strong></span>
+        <a href="{{ url_for('admin_logout') }}" class="rounded-full bg-terra-800 hover:bg-terra-700 px-4 py-1.5 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocre-400">Déconnexion</a>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex gap-6 text-sm border-t border-white/10">
+      <a href="{{ url_for('admin_dashboard') }}" class="py-3 text-white font-semibold border-b-2 border-ocre-400">📩 Messages</a>
+      <a href="{{ url_for('admin_media') }}" class="py-3 text-terra-300 hover:text-white transition-colors">🖼️ Médias</a>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-widest text-ocre-600">📩 Messages / Contacts</p>
+        <h1 class="font-display text-2xl font-extrabold text-terra-900 mt-1">Boîte de réception</h1>
+      </div>
+      <div class="inline-flex items-center gap-2 rounded-full bg-white border border-terra-200 px-4 py-2 shadow-sm">
+        <span class="h-2.5 w-2.5 rounded-full bg-emerald-500 {{ 'animate-pulse' if unread_count > 0 else '' }}"></span>
+        <span class="text-sm font-semibold text-terra-900">Messages non lus : {{ unread_count }}</span>
+      </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="mb-4 space-y-2">
+          {% for category, msg in messages %}
+            <div class="rounded-lg px-4 py-2.5 text-sm {{ 'bg-red-50 text-red-700 border border-red-200' if category == 'error' else 'bg-terra-50 text-terra-700 border border-terra-200' }}">
+              {{ msg }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="get" class="mb-5 flex flex-wrap gap-3 items-center">
+      <input type="text" name="q" value="{{ query_text }}" placeholder="Rechercher (nom, email, organisation, sujet)…"
+        class="flex-1 min-w-[220px] rounded-lg border border-terra-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-terra-400">
+      <select name="status" aria-label="Filtrer par statut" title="Filtrer par statut" class="rounded-lg border border-terra-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-terra-400">
+        <option value="">Tous les statuts</option>
+        {% for choice in status_choices %}
+          <option value="{{ choice }}" {{ 'selected' if status_filter == choice else '' }}>
+            {{ {'nouveau':'Nouveau','lu':'Lu','traite':'Traité'}.get(choice, choice) }}
+          </option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="rounded-lg bg-terra-700 hover:bg-terra-600 text-white text-sm font-semibold px-5 py-2.5 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terra-600">
+        Filtrer
+      </button>
+      {% if query_text or status_filter %}
+        <a href="{{ url_for('admin_dashboard') }}" class="text-sm text-terra-600 hover:text-terra-800 underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terra-600 rounded">Réinitialiser</a>
+      {% endif %}
+    </form>
+
+    <div class="bg-white rounded-xl border border-terra-100 shadow-sm overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-terra-50 text-terra-700 uppercase text-xs tracking-wide">
+          <tr>
+            <th class="text-left px-4 py-3">Statut</th>
+            <th class="text-left px-4 py-3">Nom</th>
+            <th class="text-left px-4 py-3">Organisation</th>
+            <th class="text-left px-4 py-3">Sujet</th>
+            <th class="text-left px-4 py-3">Date</th>
+            <th class="text-right px-4 py-3">Action</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-terra-100">
+          {% for m in messages %}
+          <tr class="hover:bg-terra-50/60 transition-colors duration-150 {{ 'font-semibold' if m.status == 'nouveau' else '' }}">
+            <td class="px-4 py-3">
+              {% if m.status == 'nouveau' %}
+                <span class="inline-flex items-center gap-1.5 text-emerald-700"><span class="h-2 w-2 rounded-full bg-emerald-500"></span> Nouveau</span>
+              {% elif m.status == 'lu' %}
+                <span class="inline-flex items-center gap-1.5 text-blue-700"><span class="h-2 w-2 rounded-full bg-blue-500"></span> Lu</span>
+              {% else %}
+                <span class="inline-flex items-center gap-1.5 text-slate-500"><span class="h-2 w-2 rounded-full bg-slate-400"></span> Traité</span>
+              {% endif %}
+            </td>
+            <td class="px-4 py-3 text-terra-900">{{ m.name }}</td>
+            <td class="px-4 py-3 text-slate-600">{{ m.organization or '—' }}</td>
+            <td class="px-4 py-3 text-slate-600">{{ m.subject }}</td>
+            <td class="px-4 py-3 text-slate-500 whitespace-nowrap">{{ m.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+            <td class="px-4 py-3 text-right">
+              <a href="{{ url_for('admin_message_detail', message_id=m.id) }}" class="text-ocre-600 hover:text-ocre-500 font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocre-400 rounded">Voir →</a>
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="6" class="px-4 py-10 text-center text-slate-400">Aucun message pour le moment.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>

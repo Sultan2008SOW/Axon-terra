@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225">
+  <rect width="400" height="225" rx="16" fill="#f2f7f5"/>
+  <rect x="0" y="0" width="400" height="225" rx="16" fill="none" stroke="#dcebe5" stroke-width="2"/>
+  <g transform="translate(140,40)">
+    <ellipse cx="60" cy="20" rx="55" ry="16" fill="#dcebe5"/>
+    <path d="M5 20 v55 a55 16 0 0 0 110 0 v-55" fill="#e7f1ec" stroke="#2e6656" stroke-width="2.5"/>
+    <ellipse cx="60" cy="20" rx="55" ry="16" fill="none" stroke="#2e6656" stroke-width="2.5"/>
+    <ellipse cx="60" cy="47" rx="55" ry="16" fill="none" stroke="#2e6656" stroke-width="1.5" opacity="0.5"/>
+    <circle cx="30" cy="20" r="4" fill="#2e6656"/>
+    <circle cx="60" cy="14" r="4" fill="#2e6656"/>
+    <circle cx="90" cy="22" r="4" fill="#2e6656"/>
+  </g>
+  <g stroke="#2e6656" stroke-width="1.5" opacity="0.6" fill="none">
+    <path d="M170 60 L110 100"/>
+    <path d="M200 65 L200 110"/>
+    <path d="M230 60 L290 100"/>
+  </g>
+  <circle cx="110" cy="100" r="3.5" fill="#2e6656"/>
+  <circle cx="200" cy="112" r="3.5" fill="#2e6656"/>
+  <circle cx="290" cy="100" r="3.5" fill="#2e6656"/>
+  <text x="200" y="185" text-anchor="middle" font-family="Sora, Arial, sans-serif" font-size="16" font-weight="700" fill="#0f2b25">Collecte de données</text>
+  <text x="200" y="205" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" fill="#64748b">Illustration temporaire — photo réelle à insérer</text>
+</svg>

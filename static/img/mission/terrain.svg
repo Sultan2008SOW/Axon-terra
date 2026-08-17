@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f2f7f5" rx="16"/>
+  <path d="M100 220 L160 140 L220 200 L300 100 L350 220 Z" fill="#dcebe5"/>
+  <text x="200" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#475569">Photo terrain</text>
+</svg>
