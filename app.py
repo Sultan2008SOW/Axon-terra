@@ -201,7 +201,7 @@ def contact():
 def robots_txt():
     content = """User-agent: *
 Allow: /
-Sitemap: https://www.axonterra.org/sitemap.xml
+Sitemap: https://axonterra.org/sitemap.xml
 """
     resp = make_response(content)
     resp.headers["Content-Type"] = "text/plain; charset=utf-8"
@@ -213,7 +213,7 @@ def sitemap_xml():
     content = """<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.axonterra.org/</loc>
+    <loc>https://axonterra.org/</loc>
     <lastmod>2026-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
