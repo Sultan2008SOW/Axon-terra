@@ -15,8 +15,10 @@ from flask import (
     session,
     url_for,
     make_response,
+    send_from_directory,
 )
 from flask_wtf import CSRFProtect
+from werkzeug.exceptions import NotFound
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
 
@@ -45,7 +47,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 os.makedirs(os.path.join(BASE_DIR, "instance"), exist_ok=True)
 
-UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "uploads", "media")
+UPLOAD_FOLDER = os.path.join(BASE_DIR, "instance", "uploads", "media")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 60 * 1024 * 1024  # 60 Mo max par fichier
@@ -62,6 +64,8 @@ with app.app_context():
 ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME", "contact@axonterra.org")
 ADMIN_PASSWORD_HASH = os.environ.get("ADMIN_PASSWORD_HASH")
 if not ADMIN_PASSWORD_HASH:
+    if os.environ.get("RENDER"):
+        raise RuntimeError("ADMIN_PASSWORD_HASH doit être configuré sur Render.")
     # Identifiants de développement par défaut : contact@axonterra.org / admin123
     # À changer impérativement en production via ADMIN_PASSWORD_HASH.
     ADMIN_PASSWORD_HASH = generate_password_hash("admin123")
@@ -219,6 +223,15 @@ def sitemap_xml():
     resp = make_response(content)
     resp.headers["Content-Type"] = "application/xml; charset=utf-8"
     return resp
+
+
+@app.route("/uploads/media/<filename>")
+def uploaded_media(filename):
+    try:
+        return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
+    except NotFound:
+        legacy_folder = os.path.join(BASE_DIR, "static", "uploads", "media")
+        return send_from_directory(legacy_folder, filename)
 
 
 # ---------------------------------------------------------------------------

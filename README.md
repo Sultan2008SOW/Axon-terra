@@ -23,7 +23,25 @@ Copier `.env.example` en `.env` et adapter :
 - `ADMIN_USERNAME` / `ADMIN_PASSWORD_HASH` — identifiants admin
 - `SMTP_*` / `ADMIN_NOTIFY_EMAIL` — notification email à l'administrateur
 
-Sans fichier `.env`, les valeurs par défaut sont utilisées (contact@axonterra.org / admin123).
+Sans fichier `.env`, les valeurs par défaut sont utilisées en local (contact@axonterra.org / admin123).
+Sur Render, `ADMIN_PASSWORD_HASH` est obligatoire pour éviter le mot de passe de développement.
+
+## Déploiement Render
+
+Le fichier `render.yaml` configure le service web, le domaine `axonterra.org`, le certificat HTTPS et un disque persistant pour la base SQLite et les médias uploadés.
+
+Avant le déploiement :
+
+1. Générer le hash du mot de passe admin :
+   ```bash
+   python -c "from werkzeug.security import generate_password_hash as g; print(g('VOTRE_MOT_DE_PASSE'))"
+   ```
+2. Dans Render, renseigner `ADMIN_PASSWORD_HASH` avec ce hash.
+3. Configurer le DNS chez le registrar :
+   - `axonterra.org` → enregistrement `A` vers `216.24.57.1`
+   - `www.axonterra.org` → `CNAME` vers le sous-domaine `*.onrender.com` du service
+   - Supprimer tout enregistrement `AAAA` pour ce domaine
+4. Le plan `0.5c-512mb` et le disque persistent sont payants ; adapter `plan` dans `render.yaml` si nécessaire.
 
 ## Structure
 
@@ -38,7 +56,7 @@ templates/admin/detail.html     # détail d'un message (statut, suppression, ré
 static/css/custom.css           # design system & animations
 static/js/main.js               # scroll reveal, compteurs, carte Leaflet, menu
 static/js/globe3d.js            # globe 3D Three.js (continents, drag, orbite texte)
-instance/axonterra.db           # base SQLite (créée automatiquement)
+instance/                       # base SQLite + uploads médias (persistant sur Render)
 ```
 
 ## Fonctionnalités

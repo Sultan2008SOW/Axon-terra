@@ -2,6 +2,11 @@ services:
   - type: web
     name: axonterra
     runtime: python
+    plan: 0.5c-512mb
+    domains:
+      - axonterra.org
+      - www.axonterra.org
+    healthCheckPath: /
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app --chdir . --workers 2 --bind 0.0.0.0:$PORT
     envVars:

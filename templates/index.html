@@ -750,12 +750,13 @@
         </div>
 
         <div class="mt-14 flex flex-wrap justify-center items-center gap-8 sm:gap-12">
-          <img src="{{ url_for('static', filename='img/partners/adl.png') }}" alt="ADL" class="reveal h-16 w-auto grayscale hover:grayscale-0 transition-all" loading="lazy">
-          <a href="https://www.geosenegal.gouv.sn" target="_blank" rel="noopener" class="reveal reveal-delay-1 inline-flex items-center" aria-label="Géo Sénégal">
+          <img src="{{ url_for('static', filename='img/partners/ifan.png') }}" alt="IFAN" class="reveal h-16 w-auto grayscale hover:grayscale-0 transition-all" loading="lazy">
+          <img src="{{ url_for('static', filename='img/partners/adl.png') }}" alt="ADL" class="reveal reveal-delay-1 h-16 w-auto grayscale hover:grayscale-0 transition-all" loading="lazy">
+          <a href="https://www.geosenegal.gouv.sn" target="_blank" rel="noopener" class="reveal reveal-delay-2 inline-flex items-center" aria-label="Géo Sénégal">
             <img src="{{ url_for('static', filename='img/partners/geosenegal.svg') }}" alt="Géo Sénégal" class="h-16 w-auto hover:opacity-80 transition-all" loading="lazy">
           </a>
-          <img src="{{ url_for('static', filename='img/partners/golfsud.png') }}" alt="Golf Sud" class="reveal reveal-delay-2 h-16 w-auto grayscale hover:grayscale-0 transition-all" loading="lazy">
-          <img src="{{ url_for('static', filename='img/partners/sandiara.jpg') }}" alt="Mairie de Sandiara" class="reveal reveal-delay-3 h-16 w-auto grayscale hover:grayscale-0 transition-all" loading="lazy">
+          <img src="{{ url_for('static', filename='img/partners/golfsud.png') }}" alt="Golf Sud" class="reveal reveal-delay-3 h-16 w-auto grayscale hover:grayscale-0 transition-all" loading="lazy">
+          <img src="{{ url_for('static', filename='img/partners/sandiara.jpg') }}" alt="Mairie de Sandiara" class="reveal reveal-delay-4 h-16 w-auto grayscale hover:grayscale-0 transition-all" loading="lazy">
         </div>
 
         <div class="mt-10 grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
@@ -884,9 +885,9 @@
               {% for item in realisation_media %}
                 <div class="reveal {{ 'reveal-delay-' ~ loop.index0 if loop.index0 <= 3 else '' }} aspect-video rounded-xl overflow-hidden border border-white/10">
                   {% if item.media_type == 'video' %}
-                    <video src="{{ url_for('static', filename='uploads/media/' ~ item.filename) }}" class="w-full h-full object-cover" controls preload="metadata"></video>
+                    <video src="{{ url_for('uploaded_media', filename=item.filename) }}" class="w-full h-full object-cover" controls preload="metadata"></video>
                   {% else %}
-                    <img src="{{ url_for('static', filename='uploads/media/' ~ item.filename) }}" alt="{{ item.title or 'Photo mission AXONTERRA' }}" class="w-full h-full object-cover" loading="lazy">
+                    <img src="{{ url_for('uploaded_media', filename=item.filename) }}" alt="{{ item.title or 'Photo mission AXONTERRA' }}" class="w-full h-full object-cover" loading="lazy">
                   {% endif %}
                 </div>
               {% endfor %}

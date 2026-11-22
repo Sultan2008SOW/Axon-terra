@@ -6,8 +6,9 @@ venv/
 .venv/
 env/
 
-# Instance / DB
+# Instance / DB / uploads
 instance/
+static/uploads/
 
 # Environment
 .env

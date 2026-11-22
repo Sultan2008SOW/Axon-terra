@@ -87,10 +87,10 @@
         <div class="bg-white rounded-xl border border-terra-100 shadow-sm overflow-hidden group">
           <div class="aspect-video bg-terra-50 relative overflow-hidden">
             {% if item.media_type == 'video' %}
-              <video src="{{ url_for('static', filename='uploads/media/' ~ item.filename) }}" class="w-full h-full object-cover" muted></video>
+              <video src="{{ url_for('uploaded_media', filename=item.filename) }}" class="w-full h-full object-cover" muted></video>
               <span class="absolute top-2 right-2 rounded-full bg-black/60 text-white text-[10px] font-semibold px-2 py-0.5">Vidéo</span>
             {% else %}
-              <img src="{{ url_for('static', filename='uploads/media/' ~ item.filename) }}" alt="{{ item.title or '' }}" class="w-full h-full object-cover">
+              <img src="{{ url_for('uploaded_media', filename=item.filename) }}" alt="{{ item.title or '' }}" class="w-full h-full object-cover">
             {% endif %}
           </div>
           <div class="p-3">
