@@ -28,7 +28,7 @@ Sur Render, `ADMIN_PASSWORD_HASH` est obligatoire pour éviter le mot de passe d
 
 ## Déploiement Render
 
-Le fichier `render.yaml` configure le service web, le domaine `axonterra.org`, le certificat HTTPS et un disque persistant pour la base SQLite et les médias uploadés.
+Le fichier `render.yaml` configure le service web, le domaine `www.axonterra.org` (avec redirection de `axonterra.org` vers `www`), le certificat HTTPS et un disque persistant pour la base SQLite et les médias uploadés.
 
 Avant le déploiement :
 
